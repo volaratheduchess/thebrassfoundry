@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Bonheur+Royale&family=Fleur+De+Leah&family=Italianno&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Brass Foundry — Lore Engine</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    :root {
+      --gold:        #d6b36a;
+      --gold-bright: #f0d080;
+      --gold-dim:    #8b6b2e;
+      --dark:        #1a1410;
+      --dark-mid:    #2b1f18;
+      --dark-light:  #3a2a20;
+      --ink:         #c9b89a;
+      --rust:        #7a3c2a;
+      --ember:       #c0441a;
+    }
+
+    .lore-wrap {
+      padding: 40px 50px 100px;
+      max-width: 940px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .lore-header {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+
+    .lore-header h1 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: clamp(1.6em, 4vw, 2.8em);
+      color: var(--gold-bright);
+      text-shadow: 0 0 20px rgba(240,208,128,0.6), 0 0 60px rgba(192,68,26,0.3);
+      letter-spacing: 4px;
+      margin-bottom: 12px;
+    }
+
+    .lore-header .subtitle {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--gold-dim);
+      font-size: 1.05em;
+      letter-spacing: 2px;
+    }
+
+    .gear-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin: 28px 0;
+      color: var(--gold-dim);
+      font-size: 1.3em;
+      letter-spacing: 6px;
+    }
+
+    .gear-divider::before,
+    .gear-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+      max-width: 220px;
+    }
+
+    .lore-tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 44px;
+      padding: 0 20px;
+    }
+
+    .lore-tab {
+      font-family: 'IM Fell English', serif;
+      background: none;
+      border: 1px solid var(--gold-dim);
+      color: var(--gold);
+      padding: 8px 18px;
+      cursor: pointer;
+      border-radius: 3px;
+      font-size: 0.95em;
+      transition: all 0.3s ease;
+      letter-spacing: 1px;
+    }
+
+    .lore-tab:hover, .lore-tab.active {
+      background: linear-gradient(to bottom, #c9a44c, #8b6b2e);
+      color: #1a1410;
+      border-color: var(--gold-bright);
+      box-shadow: 0 0 14px rgba(214,179,106,0.4);
+    }
+
+    .lore-section { display: none; animation: loreFadeIn 0.5s ease forwards; }
+    .lore-section.active { display: block; }
+
+    @keyframes loreFadeIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .lore-entry {
+      background: linear-gradient(145deg, #2b1f18cc, #1a1410cc);
+      border: 1px solid #6a4e2a;
+      border-left: 4px solid var(--gold-dim);
+      border-radius: 6px;
+      padding: 36px 40px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lore-entry::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://www.transparenttextures.com/patterns/old-map.png');
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    .lore-entry h2 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1.25em;
+      color: var(--gold-bright);
+      margin-bottom: 18px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px rgba(240,208,128,0.3);
+    }
+
+    .lore-entry h3 {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1.1em;
+      color: var(--gold);
+      margin: 24px 0 10px;
+      border-bottom: 1px solid #6a4e2a55;
+      padding-bottom: 6px;
+    }
+
+    .lore-entry p {
+      font-family: 'IM Fell English', serif;
+      color: var(--ink);
+      line-height: 1.9;
+      font-size: 1.02em;
+      margin-bottom: 14px;
+    }
+
+    .lore-entry p em { color: var(--gold); font-style: italic; }
+
+    .pull-quote {
+      border-left: 3px solid var(--ember);
+      padding: 14px 24px;
+      margin: 24px 0;
+      background: rgba(192,68,26,0.08);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .pull-quote p {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1.08em;
+      color: var(--gold-bright);
+      margin: 0;
+      line-height: 1.75;
+    }
+
+    .pull-quote cite {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.85em;
+      color: var(--gold-dim);
+      letter-spacing: 1px;
+    }
+
+    .location-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 22px;
+      margin-top: 8px;
+    }
+
+    .location-card {
+      background: linear-gradient(160deg, #2e2018, #1a1410);
+      border: 1px solid #6a4e2a;
+      border-top: 3px solid var(--gold-dim);
+      border-radius: 6px;
+      padding: 26px 22px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .location-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(214,179,106,0.18);
+    }
+
+    .location-card h3 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.88em;
+      color: var(--gold-bright);
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .location-card p {
+      font-family: 'IM Fell English', serif;
+      color: var(--ink);
+      font-size: 0.95em;
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .location-card .loc-tag {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 0.78em;
+      color: var(--gold-dim);
+      border: 1px solid #6a4e2a66;
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+    }
+
+    .faction-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+      margin-top: 8px;
+    }
+
+    .faction-card {
+      background: linear-gradient(160deg, #2e2018, #1a1410);
+      border: 1px solid #6a4e2a;
+      border-top: 3px solid var(--ember);
+      border-radius: 6px;
+      padding: 28px 22px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .faction-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(192,68,26,0.2);
+    }
+
+
+    .faction-card h3 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.88em;
+      color: var(--gold-bright);
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .faction-card p {
+      font-family: 'IM Fell English', serif;
+      color: var(--ink);
+      font-size: 0.95em;
+      line-height: 1.75;
+      margin-bottom: 10px;
+    }
+
+    .faction-card .faction-motto {
+      font-style: italic;
+      color: var(--gold-dim);
+      font-size: 0.88em;
+      border-top: 1px solid #6a4e2a44;
+      padding-top: 10px;
+      margin-top: 6px;
+      font-family: 'IM Fell English', serif;
+    }
+
+    .myth-card {
+      background: linear-gradient(145deg, #2b1f18cc, #1a1410cc);
+      border: 1px solid #6a4e2a;
+      border-radius: 6px;
+      padding: 30px 36px;
+      margin-bottom: 28px;
+      position: relative;
+    }
+
+    .myth-card::after {
+      content: '⚙';
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-size: 1.6em;
+      opacity: 0.12;
+      color: var(--gold);
+      animation: slowSpin 24s linear infinite;
+    }
+
+    @keyframes slowSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .myth-card h2 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1.1em;
+      color: var(--gold-bright);
+      margin-bottom: 14px;
+      letter-spacing: 2px;
+    }
+
+    .myth-card p {
+      font-family: 'IM Fell English', serif;
+      color: var(--ink);
+      line-height: 1.9;
+      font-size: 1.02em;
+      margin-bottom: 10px;
+    }
+
+    .myth-card p em { color: var(--gold); font-style: italic; }
+
+    .detail-list {
+      list-style: none;
+      padding: 0;
+      margin: 14px 0;
+    }
+
+    .detail-list li {
+      font-family: 'IM Fell English', serif;
+      color: var(--ink);
+      font-size: 0.98em;
+      line-height: 1.75;
+      padding: 6px 0 6px 22px;
+      position: relative;
+      border-bottom: 1px solid #6a4e2a22;
+    }
+
+    .detail-list li::before {
+      content: '⚙';
+      position: absolute;
+      left: 0;
+      color: var(--gold-dim);
+      font-size: 0.8em;
+      top: 9px;
+    }
+
+    .detail-list li strong { color: var(--gold); }
+
+    .ember-particle {
+      position: fixed;
+      bottom: -10px;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--ember);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0.8; }
+      50%  { transform: translateY(-40vh) translateX(18px) scale(0.6); opacity: 0.3; }
+      100% { transform: translateY(-90vh) translateX(-8px) scale(0.1); opacity: 0; }
+    }
+
+    .main::-webkit-scrollbar { width: 6px; }
+    .main::-webkit-scrollbar-track { background: #1a1410; }
+    .main::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+    .panel { text-decoration: none; color: var(--gold); }
+
+    @media (max-width: 768px) {
+      .lore-wrap { padding: 24px 16px 80px; }
+      .lore-entry { padding: 22px 18px; }
+      .location-grid, .faction-grid { grid-template-columns: 1fr; }
+      .myth-card { padding: 22px 18px; }
+    }
+
+  </style>
+</head>
+<body>
+
+<div id="loader">Igniting the Foundry...</div>
+<div class="smoke-overlay"></div>
+
+<div class="ember-particle" style="left:8%;  animation-duration:9s;  animation-delay:0s;"></div>
+<div class="ember-particle" style="left:22%; animation-duration:13s; animation-delay:2s; background:#d6b36a;"></div>
+<div class="ember-particle" style="left:55%; animation-duration:8s;  animation-delay:4s;"></div>
+<div class="ember-particle" style="left:78%; animation-duration:11s; animation-delay:1s; background:#d6b36a;"></div>
+<div class="ember-particle" style="left:42%; animation-duration:15s; animation-delay:6s;"></div>
+
+<div class="container">
+
+  <nav class="sidebar">
+    <h1 class="logo">⚙ The Brass Foundry</h1>
+    <ul>
+      <li><button onclick="location.href='index.html'">Home</button></li>
+      <li><button onclick="location.href='events.html'">Events</button></li>
+      <li><button onclick="location.href='characters.html'">Characters</button></li>
+      <li><button onclick="location.href='guild.html'">Guild Hall</button></li>
+    </ul>
+    <a href="https://discord.gg/bu6UQzX59m" class="join-btn">Enter the Foundry</a>
+  </nav>
+
+  <div class="main">
+    <div id="content" style="display:none;">
+
+      <div class="lore-header">
+        <h1>The Lore Engine</h1>
+        <p class="subtitle">Every gear has a ghost. Every flame, a name.</p>
+        <div class="gear-divider">⚙ ✦ ⚙</div>
+      </div>
+
+      <div class="lore-tabs">
+        <button class="lore-tab active" onclick="showLore('origin', this)">Origin</button>
+        <button class="lore-tab" onclick="showLore('world', this)">The World</button>
+        <button class="lore-tab" onclick="showLore('factions', this)">Guilds & Factions</button>
+        <button class="lore-tab" onclick="showLore('myths', this)">Myths & Legends</button>
+      </div>
+
+      <div class="lore-wrap">
+
+        <!-- ORIGIN -->
+        <div class="lore-section active" id="lore-origin">
+
+          <div class="lore-entry">
+            <h2>What the Foundry Is</h2>
+            <p>The Brass Foundry is not merely a city. It is a living, breathing argument against the idea that passion and invention must be orderly things. Within its walls — and increasingly beyond them — beings of every shape, origin, and obsession have gathered to build, to break, and to begin again.</p>
+            <p>Its defining creed is simple enough to be dangerous: <em>invent freely, create boldly, and find the fun in whatever survives the explosion.</em></p>
+
+            <div class="pull-quote">
+              <p>"A steampunk city full of a myriad of beings, all with a passion for invention, creativity, and fun."</p>
+              <cite>— From the founding charter, etched into the base of the Cogspire</cite>
+            </div>
+
+            <p>Nobody agrees on how it started. The records from the early days are smudged with grease, scorched at the edges, and occasionally written in languages someone in Inventor's Row invented on a whim. What is known — what is <em>felt</em>, by every soul who passes through the Cogworks Gate — is that the Foundry called them here. Not by advertisement. Not by force. By something older and harder to name.</p>
+          </div>
+
+          <div class="lore-entry">
+            <h2>The Secret Society & the First Flame</h2>
+            <p>Before the Foundry had a name, it had a circle. A small, clandestine gathering of inventors, misfits, and visionaries who had grown tired of a world that hoarded knowledge and weaponized wonder. They called themselves <em>the Soot Circle</em> — and they met in the dark, in the steam, in the places no respectable person bothered to look.</p>
+            <p>Their pact was not written in ink. It was stamped in molten brass, pressed between three palms, and cooled into the shape of a gear with one tooth missing — a deliberate flaw. A reminder that perfection is the enemy of creation.</p>
+            <p>They chose the Ashmarsh as their territory: a foggy, sulphurous borderland that smelled of rot and possibility in equal measure. On that ground they built the first furnace. And then, crucially, they left the door open.</p>
+            <p>The curious came. Then the brilliant. Then the chaotic. Then everyone else.</p>
+
+            <div class="pull-quote">
+              <p>"We do not ask your credentials. We do not demand your decency. We require only that your chaos be honest."</p>
+              <cite>— The Vow of the Open Door, the only surviving document of the Soot Circle</cite>
+            </div>
+          </div>
+
+          <div class="lore-entry">
+            <h2>Cogworks Gate</h2>
+            <p>Today, the city's threshold is marked by <em>Cogworks Gate</em> — known to locals simply as "Cogs." Iron-wrought, enormous, and perpetually warm to the touch from the mechanisms humming inside its frame, the Gate is more than architecture. It is ceremony.</p>
+            <p>Passing through Cogs is understood, by everyone who lives here, as a moment of mutual recognition — not just the visitor accepting the Foundry, but the Foundry accepting the visitor. Something in its gears turns ever so slightly in acknowledgment when you cross the threshold.</p>
+            <p>Those who have passed through describe it differently. Some say the gate exhales. Some say it doesn't open for people who aren't ready. The gatekeepers officially say nothing. Unofficially, they agree with both.</p>
+          </div>
+
+        </div>
+
+        <!-- WORLD -->
+        <div class="lore-section" id="lore-world">
+
+          <div class="lore-entry">
+            <h2>Districts of the Foundry</h2>
+            <p>The Brass Foundry is not a city you learn from a map. Its districts breathe, shift, and occasionally rearrange themselves when an ambitious experiment goes sideways in Inventor's Row. What follows is the closest thing to a reliable guide — written with the caveat that some of this may have changed by the time you finish reading it.</p>
+          </div>
+
+          <div class="location-grid">
+
+            <div class="location-card">
+              <h3>The Cogspire</h3>
+              <p>A colossal spiraling tower at the city's heart. Its inner chambers rotate slowly on a massive gear buried beneath the streets. Each major floor belongs to a different guild or civic function. The exposed gears and chimes regulate time for the entire Foundry. Rail lines run from the upper levels throughout the city — the Cogspire is the Foundry's beating pulse and its central transportation hub.</p>
+              <span class="loc-tag">City Center · Transport · Timekeeping</span>
+            </div>
+
+            <div class="location-card">
+              <h3>Inventor's Row</h3>
+              <p>The thrumming artery of ingenuity — a winding district of clattering gears, unpredictable prototypes, and storefronts stitched together with rivets and raw inspiration. Ideas are tested, sold, salvaged, and sometimes explode spectacularly in the process. If the Skyrail Docks are the city's wings, Inventor's Row is its brain — manic, brilliant, and slightly unstable.</p>
+              <span class="loc-tag">Commerce · Innovation · Mild Hazard</span>
+            </div>
+
+            <div class="location-card">
+              <h3>The Skyrail Docks</h3>
+              <p>Perched on the upper terraces above the smog line, suspended on immense cantilevered platforms threaded with woven metal rail-lines. Once the exclusive province of the wealthy, newly elected Mayor Sprocket has made airfare accessible to the lower classes. The Docks are the central hub for aerial travel across the known world.</p>
+              <span class="loc-tag">Aerial Travel · Trade · Upper City</span>
+            </div>
+
+            <div class="location-card">
+              <h3>The Boiler Yards</h3>
+              <p>Where trains, steam carriages, and cargo trams arrive — loud, chaotic, and brimming with life. Workers, merchants, and inventors clash or collaborate over shipments and spare parts. Accessible by road or through the Cogspire. The Boiler Yards never sleep, and they smell exactly like you'd expect.</p>
+              <span class="loc-tag">Transport · Industry · Commerce</span>
+            </div>
+
+            <div class="location-card">
+              <h3>The Geargrave</h3>
+              <p>Beyond the towering walls lies a sprawling junkfield where outdated automatons, broken machines, and failed experimental tech are laid to rest — or claimed by daring scavengers. The Geargrave is the Foundry's shadow: a graveyard of almost-greatness that quietly feeds Inventor's Row with its reclaimed bones.</p>
+              <span class="loc-tag">Outskirts · Salvage · Danger</span>
+            </div>
+
+            <div class="location-card">
+              <h3>The Rusted Swamp</h3>
+              <p>Outside the high walls entirely. Citizens of the Rusted Swamp have chosen a different balance — nature and technology coexisting in a vast, fog-covered wetland. Run by Niori, the Swamp operates on its own terms and answers to its own rhythms, home to beings who find the city's walls more limiting than liberating.</p>
+              <span class="loc-tag">Beyond the Walls · Nature · Fog</span>
+            </div>
+
+          </div>
+
+          <div class="lore-entry" style="margin-top: 32px;">
+            <h2>Workers of the Skyrail Docks</h2>
+            <p>The Docks run on a specialized labor force that most visitors overlook until something goes catastrophically wrong. Each role carries its own pride — and its own particular relationship with danger.</p>
+            <ul class="detail-list">
+              <li><strong>Skywrights</strong> — Engineers who maintain the platforms and repair rail-guided docking clamps. The unsung backbone of everything that doesn't crash.</li>
+              <li><strong>Balloonherds</strong> — Wranglers responsible for guiding lighter-than-air cargo blimps into position. Considerably more chaotic than it sounds on paper.</li>
+              <li><strong>Gasknots</strong> — Specialized riggers who vent and rechannel steam pressure before docking. One bad Gasknot can end a ship. A good one is worth their weight in brass.</li>
+              <li><strong>Smogkeepers</strong> — Lantern-wielding figures who maintain safe visibility during heavy smoke or fog, especially at night. They are the reason more ships don't crash. They receive very little credit for this.</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- GUILDS -->
+        <div class="lore-section" id="lore-factions">
+
+          <div class="lore-entry">
+            <h2>The Guilds</h2>
+            <p>The Brass Foundry is not governed by a single hand. It is held together — loosely, chaotically, magnificently — by its guilds. Each one claims a piece of the city's soul. Each one would argue, loudly and with considerable passion, that their piece is the most important one. They are all correct, in their own way.</p>
+            <p>Guild membership is not assigned. You find your guild the way you find your people: by wandering until somewhere finally feels like home.</p>
+          </div>
+
+          <div class="faction-grid">
+
+            <div class="faction-card">
+              <h3>Volara's Airship</h3>
+              <p>Board the airship and soar. Volara's guild occupies the Skyrail Docks' most coveted berths, and its members are as high-flying in temperament as in altitude. They operate above the smog, above the ordinary, and frequently above scrutiny — though they would frame this as a matter of perspective.</p>
+              <p>They are elegant, chaotic, and entirely unapologetic about both.</p>
+              <p class="faction-motto">"Soar, or stay behind."</p>
+            </div>
+
+            <div class="faction-card">
+              <h3>Solstar's Lounge</h3>
+              <p>Somewhere in the Foundry there is a door that doesn't appear on official maps. Behind it: Sol's Lounge, where the stories are rich, the characters are complicated, and deviance is not a warning — it's the atmosphere. Enter expecting to be challenged. Leave with a character you didn't arrive with.</p>
+              <p class="faction-motto">"Rich worlds require complicated people."</p>
+            </div>
+
+            <div class="faction-card">
+              <h3>The Otter Squad</h3>
+              <p>Operating out of <em>Otterworks</em> — the chaotic laboratory where inspired yet cluttered minds converge — the Squad is the Foundry's most unpredictable creative force. Projects may take days or years. The results are always wildly wacky and always, somehow, high quality. They will steal your hoodies. This is expected.</p>
+              <p class="faction-motto">"Fun is mandatory. Chaos is respected."</p>
+            </div>
+
+            <div class="faction-card">
+              <h3>The Rusted Swamp</h3>
+              <p>Run by Niori, the Swamp's citizens have chosen fog over iron, roots over rails. They live outside the walls in a wetland where technology and nature have reached an uneasy — and beautiful — truce. Strange things live here. The muck is warm, the company is weirder, and that is precisely the appeal.</p>
+              <p class="faction-motto">"We've got bugs, sludge, and soul."</p>
+            </div>
+
+          </div>
+
+          <div class="lore-entry" style="margin-top: 32px;">
+            <h2>Otterworks</h2>
+            <p>No account of the Foundry's guilds is complete without a proper mention of <em>Otterworks</em> — the Otter Squad's home base and the most creative disaster zone in the city. It is simultaneously a laboratory, a studio, a storage facility for things that haven't been invented yet, and the location of at least three ongoing arguments about the correct way to attach a secondary boiler to a mechanical otter suit.</p>
+            <p>The walls are covered in blueprints. The floor is covered in everything else. Projects born here are known to take months, days, or years — and to emerge the other side as something nobody predicted but everyone immediately recognizes as necessary.</p>
+            <p>If Inventor's Row is the Foundry's brain, Otterworks is whatever part of the brain gets excited at 3am and starts building things it can't fully explain in the morning.</p>
+          </div>
+
+        </div>
+
+        <!-- MYTHS -->
+        <div class="lore-section" id="lore-myths">
+
+          <div class="myth-card">
+            <h2>The Gear With One Missing Tooth</h2>
+            <p>The founding symbol of the Brass Foundry is not a perfect gear. It never has been. The Soot Circle pressed their founding seal from molten brass with one tooth deliberately filed away. They called it <em>The Honest Flaw</em>.</p>
+            <p>A machine without imperfection, they argued, is a machine without curiosity — it has nothing left to become. The symbol appears throughout the city: carved into the frame of Cogworks Gate, stamped onto official guild documents, tattooed on the wrists of those who have been here long enough to mean it.</p>
+            <p>To bear the Broken Gear is to declare yourself a work in progress — which is, the Foundry believes, the only honest thing anyone can be. Whether the original casting still exists somewhere beneath the Cogspire, turning slowly on the great gear under the streets, is a question the Foundry does not officially answer.</p>
+          </div>
+
+          <div class="myth-card">
+            <h2>The Fire That Was Already Burning</h2>
+            <p>The oldest workers in the Foundry — those who have been here so long their boots have synchronized with the Cogspire's rhythm — insist on one thing about the furnace at the city's center: they did not light it.</p>
+            <p>The Soot Circle arrived, they say, to find it already burning. Low, patient, waiting. They didn't start the flame. They introduced themselves to it, and the flame — apparently satisfied — allowed the rest of the city to be built around it.</p>
+            <p>New arrivals are told, on their first night, to sit alone beside the furnace and name the thing they came here to escape. Not to confess it. Just to let the fire hear it. Those who emerge lighter are welcomed fully. Those who emerge unchanged are welcomed anyway — but the regulars watch them with a particular kind of interest thereafter.</p>
+
+            <div class="pull-quote">
+              <p>"The Foundry didn't choose its location. The fire did. We simply built around it."</p>
+              <cite>— Overheard in the Boiler Yards, speaker unknown</cite>
+            </div>
+          </div>
+
+          <div class="myth-card">
+            <h2>Mayor Sprocket & the Night of Affordable Airfare</h2>
+            <p>For most of the Foundry's history, the Skyrail Docks were the exclusive province of those with heavy coin purses and heavier connections. The lower districts looked up at the gleaming platforms above the smog line and understood, without being told, that they were not welcome there.</p>
+            <p>Then came Sprocket. Nobody is entirely sure how Sprocket got elected. The official record lists a campaign, a vote, and a margin of victory that seems improbable in retrospect. What is remembered is what happened after: airfare became affordable. The lower classes boarded ships for the first time. The Docks, which had smelled only of wealth, began to smell of everyone.</p>
+            <p>Some in the upper terraces call it a disaster. In the Boiler Yards and Inventor's Row, they call it the second founding. In the Rusted Swamp, Niori reportedly said simply: <em>"About time."</em></p>
+          </div>
+
+          <div class="myth-card">
+            <h2>What Comes Out of the Geargrave</h2>
+            <p>Every city has a place where its failures go. The Foundry's is the Geargrave — a sprawling junkfield beyond the walls where broken automatons and abandoned experiments are laid to rest in the Ashmarsh fog.</p>
+            <p>The scavengers who work the Geargrave understand something the rest of the city forgets: nothing out there is truly dead. It's waiting to be something else. The best parts in Inventor's Row have no clean origin story. They arrived from the Geargrave, already half-alive, looking for a purpose.</p>
+            <p>There are stories, of course. Automatons seen walking at the fog's edge. Mechanisms that reassembled themselves in the night. A figure in Inventor's Row selling components that couldn't have been made by any living craftsperson — components that fit perfectly into designs that hadn't been drawn yet.</p>
+            <p>The Foundry does not investigate these stories. It writes them down and files them in the Cogspire's lower archives, in a section labeled, with characteristic understatement: <em>Interesting.</em></p>
+          </div>
+
+          <div class="myth-card">
+            <h2>The Clockwork Mire</h2>
+            <p>Deep in the Rusted Swamp, past the rolling fog and the half-submerged machinery that marks Niori's territory, there is a place locals call the <em>Clockwork Mire</em>. Nobody built it — or if they did, they haven't admitted it. The mechanisms there don't follow Foundry design. They don't follow any known design.</p>
+            <p>They tick in a rhythm that matches nothing in the Cogspire's official timekeeping. On certain nights, when the fog is thickest and the Ashmarsh smells of copper, the Mire's mechanisms all synchronize at once — perfectly, for exactly seventeen seconds. Then they go quiet.</p>
+            <p>And something, somewhere deeper in the Swamp, answers.</p>
+            <p>Niori has been asked about the Clockwork Mire many times. The answer is always the same: <em>"It was there when I arrived. I left it alone. It returned the favor."</em></p>
+
+            <!-- AUDIO PLAYER -->
+            <div class="mire-player">
+              <div class="mire-player-label">
+                <span class="mire-gear">⚙</span>
+                <span class="mire-player-title">The Clockwork Mire</span>
+                <span class="mire-player-sub">— a transmission from the Swamp</span>
+              </div>
+              <audio id="mireAudio" src="The_Clockwork_Mire.mp3" preload="metadata"></audio>
+              <div class="mire-controls">
+                <button class="mire-play-btn" id="mirePlayBtn" onclick="toggleMire()">▶ Listen</button>
+                <div class="mire-progress-wrap" onclick="seekMire(event)">
+                  <div class="mire-progress-bar" id="mireBar"></div>
+                </div>
+                <span class="mire-time" id="mireTime">0:00</span>
+              </div>
+            </div>
+
+            <style>
+              .mire-player {
+                margin-top: 26px;
+                background: linear-gradient(135deg, #011a03cc, #031a10cc);
+                border: 1px solid #2a6a3a;
+                border-left: 3px solid #39ff14;
+                border-radius: 6px;
+                padding: 18px 22px;
+              }
+
+              .mire-player-label {
+                display: flex;
+                align-items: baseline;
+                gap: 8px;
+                margin-bottom: 14px;
+                flex-wrap: wrap;
+              }
+
+              .mire-gear {
+                color: #39ff14;
+                font-size: 1em;
+                animation: slowSpin 10s linear infinite;
+                display: inline-block;
+              }
+
+              .mire-player-title {
+                font-family: 'Cinzel Decorative', cursive;
+                font-size: 0.85em;
+                color: #39ff14;
+                letter-spacing: 2px;
+                text-shadow: 0 0 10px rgba(57,255,20,0.5);
+              }
+
+              .mire-player-sub {
+                font-family: 'IM Fell English', serif;
+                font-style: italic;
+                font-size: 0.8em;
+                color: #4a7a4a;
+              }
+
+              .mire-controls {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+              }
+
+              .mire-play-btn {
+                font-family: 'IM Fell English', serif;
+                font-size: 0.85em;
+                background: linear-gradient(to bottom, #1a4d1a, #0d2d0d);
+                color: #39ff14 !important;
+                border: 1px solid #39ff14 !important;
+                padding: 6px 16px;
+                border-radius: 4px;
+                cursor: pointer;
+                white-space: nowrap;
+                transition: all 0.3s ease;
+                text-shadow: 0 0 8px rgba(57,255,20,0.6);
+                box-shadow: 0 0 8px rgba(57,255,20,0.15);
+                letter-spacing: 1px;
+              }
+
+              .mire-play-btn:hover {
+                background: linear-gradient(to bottom, #2a6a2a, #1a4d1a);
+                box-shadow: 0 0 16px rgba(57,255,20,0.35);
+                transform: translateY(-1px);
+              }
+
+              .mire-progress-wrap {
+                flex: 1;
+                height: 6px;
+                background: #1a3a1a;
+                border-radius: 3px;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                border: 1px solid #2a5a2a;
+              }
+
+              .mire-progress-bar {
+                height: 100%;
+                width: 0%;
+                background: linear-gradient(to right, #1a4d1a, #39ff14);
+                border-radius: 3px;
+                transition: width 0.1s linear;
+                box-shadow: 0 0 6px rgba(57,255,20,0.5);
+              }
+
+              .mire-time {
+                font-family: 'IM Fell English', serif;
+                font-size: 0.8em;
+                color: #4a7a4a;
+                white-space: nowrap;
+                min-width: 32px;
+              }
+            </style>
+
+            <script>
+              const mireAudio = document.getElementById('mireAudio');
+              const mireBar   = document.getElementById('mireBar');
+              const mireTime  = document.getElementById('mireTime');
+              const mireBtn   = document.getElementById('mirePlayBtn');
+
+              function toggleMire() {
+                if (mireAudio.paused) {
+                  mireAudio.play();
+                  mireBtn.textContent = '⏸ Pause';
+                } else {
+                  mireAudio.pause();
+                  mireBtn.textContent = '▶ Listen';
+                }
+              }
+
+              mireAudio.addEventListener('timeupdate', () => {
+                if (!mireAudio.duration) return;
+                const pct = (mireAudio.currentTime / mireAudio.duration) * 100;
+                mireBar.style.width = pct + '%';
+                const m = Math.floor(mireAudio.currentTime / 60);
+                const s = Math.floor(mireAudio.currentTime % 60).toString().padStart(2, '0');
+                mireTime.textContent = m + ':' + s;
+              });
+
+              mireAudio.addEventListener('ended', () => {
+                mireBtn.textContent = '▶ Listen';
+                mireBar.style.width = '0%';
+                mireTime.textContent = '0:00';
+              });
+
+              function seekMire(e) {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const pct  = (e.clientX - rect.left) / rect.width;
+                mireAudio.currentTime = pct * mireAudio.duration;
+              }
+            </script>
+          </div>
+
+        </div>
+
+      </div><!-- /lore-wrap -->
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /container -->
+
+<script src="script.js"></script>
+<script>
+  function showLore(section, btn) {
+    document.querySelectorAll('.lore-section').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.lore-tab').forEach(el => el.classList.remove('active'));
+    document.getElementById('lore-' + section).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

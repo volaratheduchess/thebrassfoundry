@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Brass Foundry — Characters</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    :root {
+      --gold:         #d6b36a;
+      --gold-bright:  #f0d080;
+      --gold-dim:     #8b6b2e;
+      --dark:         #1a1410;
+      --dark-mid:     #2b1f18;
+      --ink:          #c9b89a;
+      --ember:        #c0441a;
+
+      /* Per-character accent colors */
+      --sprocket-col:  #ad5a08;
+      --sprocket-col2: #713502;
+      --volara-col:    #5900ff;
+      --volara-col2:   #00ffee;
+      --murk-col:      #39ff14;   /* neon green */
+      --murk-col2:     #1a4d1a;   /* dark green */
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .char-header {
+      text-align: center;
+      padding: 70px 20px 20px;
+    }
+
+    .char-header h1 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: clamp(1.6em, 4vw, 2.8em);
+      color: var(--gold-bright);
+      text-shadow: 0 0 24px rgba(240,208,128,0.5), 0 0 60px rgba(192,68,26,0.2);
+      letter-spacing: 4px;
+      margin-bottom: 10px;
+    }
+
+    .char-header .subtitle {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--gold-dim);
+      font-size: 1.05em;
+      letter-spacing: 2px;
+    }
+
+    .gear-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin: 26px auto 50px;
+      color: var(--gold-dim);
+      font-size: 1.3em;
+      letter-spacing: 6px;
+      max-width: 600px;
+    }
+
+    .gear-divider::before,
+    .gear-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+    }
+
+    /* ===== CHARACTER CARDS WRAPPER ===== */
+    .characters-wrap {
+      padding: 0 40px 120px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* ===== CHARACTER CARD ===== */
+    .char-card {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 0;
+      margin-bottom: 60px;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 0 40px rgba(0,0,0,0.6);
+      animation: cardReveal 0.7s ease both;
+    }
+
+    .char-card:nth-child(2) { animation-delay: 0.15s; }
+    .char-card:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes cardReveal {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Alternate layout — every even card flips */
+    .char-card.flip {
+      grid-template-columns: 1fr 220px;
+    }
+
+    .char-card.flip .char-portrait { order: 2; }
+    .char-card.flip .char-body     { order: 1; }
+
+    /* ===== PORTRAIT COLUMN ===== */
+    .char-portrait {
+      position: relative;
+      min-height: 340px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 30px 20px;
+      overflow: hidden;
+    }
+
+    /* Sprocket — burnt orange/rust */
+    .char-card.sprocket .char-portrait {
+      background: linear-gradient(160deg, #1a0e02, #2e1a06);
+      border-right: 3px solid var(--sprocket-col);
+    }
+
+    .char-card.sprocket.flip .char-portrait {
+      border-right: none;
+      border-left: 3px solid var(--sprocket-col);
+    }
+
+    /* Volara — electric violet / cyan */
+    .char-card.volara .char-portrait {
+      background: linear-gradient(160deg, #0d0020, #00100f);
+      border-right: 3px solid var(--volara-col);
+    }
+
+    /* Murk — neon / dark green */
+    .char-card.murk .char-portrait {
+      background: linear-gradient(160deg, #011001, #021f02);
+      border-right: none;
+      border-left: 3px solid var(--murk-col);
+    }
+
+    /* Gear bg watermark behind portrait */
+    .char-portrait::before {
+      content: '⚙';
+      position: absolute;
+      font-size: 9em;
+      opacity: 0.05;
+      color: #fff;
+      animation: slowSpin 30s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes slowSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .char-img {
+      width: 160px;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 0 12px rgba(255,255,255,0.15));
+      transition: transform 0.4s ease;
+    }
+
+    .char-card:hover .char-img {
+      transform: scale(1.06) translateY(-4px);
+    }
+
+    .char-portrait-name {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.85em;
+      letter-spacing: 3px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .char-card.sprocket .char-portrait-name { color: var(--sprocket-col); }
+    .char-card.volara   .char-portrait-name { color: var(--volara-col2); }
+    .char-card.murk     .char-portrait-name { color: var(--murk-col); }
+
+    .char-portrait-role {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.78em;
+      color: var(--gold-dim);
+      text-align: center;
+      margin-top: 5px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== BODY COLUMN ===== */
+    .char-body {
+      background: linear-gradient(145deg, #2b1f18ee, #1a1410f8);
+      border: 1px solid #6a4e2a;
+      padding: 36px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .char-body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://www.transparenttextures.com/patterns/old-map.png');
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    /* Accent top bar per character */
+    .char-card.sprocket .char-body { border-top: 3px solid var(--sprocket-col); }
+    .char-card.volara   .char-body { border-top: 3px solid var(--volara-col2); }
+    .char-card.murk     .char-body { border-top: 3px solid var(--murk-col); }
+
+    .char-name {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1.5em;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+
+    .char-card.sprocket .char-name { color: var(--sprocket-col);  text-shadow: 0 0 14px rgba(173,90,8,0.5); }
+    .char-card.volara   .char-name { color: var(--volara-col2);   text-shadow: 0 0 14px rgba(0,255,238,0.4), 0 0 30px rgba(89,0,255,0.3); }
+    .char-card.murk     .char-name { color: var(--murk-col);      text-shadow: 0 0 14px rgba(57,255,20,0.5); }
+
+    .char-title {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.95em;
+      color: var(--gold-dim);
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    .char-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+
+    .char-tag {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.78em;
+      padding: 3px 10px;
+      border-radius: 3px;
+      border: 1px solid;
+      font-style: italic;
+    }
+
+    .char-card.sprocket .char-tag { color: var(--sprocket-col);  border-color: var(--sprocket-col);  background: rgba(173,90,8,0.1); }
+    .char-card.volara   .char-tag { color: var(--volara-col2);   border-color: var(--volara-col2);   background: rgba(0,255,238,0.07); }
+    .char-card.murk     .char-tag { color: var(--murk-col);      border-color: var(--murk-col);      background: rgba(57,255,20,0.07); }
+
+    .char-blurb {
+      font-family: 'IM Fell English', serif;
+      color: var(--ink);
+      line-height: 1.9;
+      font-size: 1.02em;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .char-blurb em { font-style: italic; }
+
+    .char-card.sprocket .char-blurb em { color: var(--sprocket-col); }
+    .char-card.volara   .char-blurb em { color: var(--volara-col2); }
+    .char-card.murk     .char-blurb em { color: var(--murk-col); }
+
+    .char-quote {
+      margin-top: 22px;
+      padding: 14px 20px;
+      border-left: 3px solid;
+      border-radius: 0 6px 6px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .char-card.sprocket .char-quote { border-color: var(--sprocket-col);  background: rgba(173,90,8,0.08); }
+    .char-card.volara   .char-quote { border-color: var(--volara-col2);   background: rgba(0,255,238,0.06); }
+    .char-card.murk     .char-quote { border-color: var(--murk-col);      background: rgba(57,255,20,0.06); }
+
+    .char-quote p {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1.05em;
+      color: var(--gold-bright);
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    .char-quote cite {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.82em;
+      color: var(--gold-dim);
+      letter-spacing: 1px;
+      font-style: normal;
+    }
+
+    /* ===== EMBER PARTICLES ===== */
+    .ember-particle {
+      position: fixed;
+      bottom: -10px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--ember);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(1); opacity: 0.7; }
+      50%  { transform: translateY(-40vh) translateX(18px) scale(0.6); opacity: 0.3; }
+      100% { transform: translateY(-90vh) translateX(-8px) scale(0.1); opacity: 0; }
+    }
+
+    .main::-webkit-scrollbar { width: 6px; }
+    .main::-webkit-scrollbar-track { background: #1a1410; }
+    .main::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+      .characters-wrap { padding: 0 14px 80px; }
+
+      .char-card,
+      .char-card.flip {
+        grid-template-columns: 1fr;
+      }
+
+      .char-card.flip .char-portrait { order: 0; }
+      .char-card.flip .char-body     { order: 1; }
+
+      .char-card.murk .char-portrait,
+      .char-card.sprocket .char-portrait,
+      .char-card.volara .char-portrait {
+        border-right: none;
+        border-left: none;
+        border-bottom: 3px solid currentColor;
+        min-height: 200px;
+      }
+
+      .char-card.sprocket .char-portrait { border-bottom-color: var(--sprocket-col); }
+      .char-card.volara   .char-portrait { border-bottom-color: var(--volara-col2); }
+      .char-card.murk     .char-portrait { border-bottom-color: var(--murk-col); }
+
+      .char-body { padding: 24px 18px; }
+      .char-name { font-size: 1.2em; }
+    }
+
+  </style>
+</head>
+<body>
+
+<div id="loader">Igniting the Foundry...</div>
+<div class="smoke-overlay"></div>
+
+<div class="ember-particle" style="left:8%;  animation-duration:9s;  animation-delay:0s;"></div>
+<div class="ember-particle" style="left:30%; animation-duration:13s; animation-delay:4s; background:#d6b36a;"></div>
+<div class="ember-particle" style="left:58%; animation-duration:10s; animation-delay:1s;"></div>
+<div class="ember-particle" style="left:80%; animation-duration:12s; animation-delay:6s; background:#d6b36a;"></div>
+
+<div class="container">
+
+  <nav class="sidebar">
+    <h1 class="logo">⚙ The Brass Foundry</h1>
+    <ul>
+      <li><button onclick="location.href='index.html'">Home</button></li>
+      <li><button onclick="location.href='events.html'">Events</button></li>
+      <li><button onclick="location.href='characters.html'">Characters</button></li>
+      <li><button onclick="location.href='guild.html'">Guild Hall</button></li>
+    </ul>
+    <a href="https://discord.gg/bu6UQzX59m" class="join-btn">Enter the Foundry</a>
+  </nav>
+
+  <div class="main">
+    <div id="content" style="display:none;">
+
+      <!-- HEADER -->
+      <div class="char-header">
+        <h1>Characters</h1>
+        <p class="subtitle">The souls that turn the gears.</p>
+        <div class="gear-divider">⚙ ✦ ⚙</div>
+      </div>
+
+      <div class="characters-wrap">
+
+        <!-- ===== SPROCKET ===== -->
+        <div class="char-card sprocket">
+
+          <div class="char-portrait">
+            <img src="https://s13.gifyu.com/images/bmfYf.png" alt="Sprocket" class="char-img">
+            <div class="char-portrait-name">Sprocket</div>
+            <div class="char-portrait-role">Mayor · Mascot · Mystery</div>
+          </div>
+
+          <div class="char-body">
+            <div class="char-name">Sprocket</div>
+            <div class="char-title">Clockwork Griffin — Mayor of the Brass Foundry</div>
+            <div class="char-tags">
+              <span class="char-tag">Mascot</span>
+              <span class="char-tag">Elected Official</span>
+              <span class="char-tag">Clockwork Griffin</span>
+              <span class="char-tag">Beloved Chaos</span>
+            </div>
+            <p class="char-blurb">
+              Nobody is entirely sure how Sprocket ended up on the ballot. The prevailing theory is that no one was brave enough to take their name off it.
+            </p>
+            <p class="char-blurb">
+              Part griffin, part clockwork marvel, entirely unpredictable — Sprocket is the Brass Foundry's beloved mascot and, against all reasonable expectations, its sitting Mayor. Their feathers are laced with <em>copper filament</em> that catches the light of the Cogspire's chimes. Their talons leave small gear-shaped impressions in soft ground. Nobody has ever seen them sleep, though a maintenance engineer once reported hearing <em>gentle ticking</em> from the mayoral office at 3am.
+            </p>
+            <p class="char-blurb">
+              Their single defining act of governance — opening the Skyrail Docks to the lower districts — was so swift, so decisive, and so wildly popular that political rivals are still trying to figure out what happened. Sprocket has not held a press conference since. They communicate primarily through <em>meaningful looks</em>, occasional memos written in surprisingly elegant cursive, and showing up exactly where they're needed at exactly the right moment.
+            </p>
+            <p class="char-blurb">
+              Whether Sprocket is a political genius, a force of nature wearing a mayoral sash, or something the Foundry dreamed up and set loose — the city loves them, and the city's love, once given, is not easily revoked.
+            </p>
+            <div class="char-quote">
+              <p>"Sprocket showed up to the opening of the lower Skyrail platform, said nothing, spread their wings once, and every Smogkeeper in the Docks lit their lantern at the same time. I don't know how they did it. I don't think they do either."</p>
+              <cite>— A Boiler Yards worker, on the Night the Sky Opened</cite>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ===== VOLARA ===== -->
+        <div class="char-card volara flip">
+
+          <div class="char-portrait">
+            <img src="https://s13.gifyu.com/images/bmfYc.md.png" alt="Volara" class="char-img">
+            <div class="char-portrait-name">Volara</div>
+            <div class="char-portrait-role">Duchess · Founder · Flame</div>
+          </div>
+
+          <div class="char-body">
+            <div class="char-name">Volara</div>
+            <div class="char-title">Duchess of Brass and Velvet Desires — Feral Mistress of the Brass Foundry</div>
+            <div class="char-tags">
+              <span class="char-tag">Founder</span>
+              <span class="char-tag">Duchess</span>
+              <span class="char-tag">Guild Leader</span>
+              <span class="char-tag">Defier of Rules</span>
+              <span class="char-tag">Patron Saint of Chaos</span>
+            </div>
+            <p class="char-blurb">
+              Volara was, once, a duchess. She still has the title. She has simply <em>repurposed</em> what it means.
+            </p>
+            <p class="char-blurb">
+              Defier of rules. Breaker of hearts. Patron saint of chaos. Feral Elegance Incarnate. Crafter of Dark Velvet Desires. Spinner of Seductive Chaos. The descriptions accumulate around Volara the way smoke accumulates around the Foundry — inevitable, atmospheric, and impossible to fully clear. She does not correct them. She considers them a reasonable summary.
+            </p>
+            <p class="char-blurb">
+              She was one of the original <em>Soot Circle</em> — though she would tell you the Circle was her idea and she merely allowed the others to participate. Her airship is the finest vessel in the Skyrail Docks and docked in a berth that appears on no manifest. Her quarters in the Cogspire rotate on a schedule only she controls. The other founding members have, over the years, faded into legend. Volara has not faded. Volara has <em>intensified</em>.
+            </p>
+            <p class="char-blurb">
+              She runs her guild from the heights — literally and philosophically. Those who earn a place on the Airship find themselves in the company of someone who demands excellence, rewards chaos, and has absolutely no patience for anyone who leaves their morality on her doorstep and then asks for it back.
+            </p>
+            <div class="char-quote">
+              <p>"Leave your morality at my doorstep."</p>
+              <cite>— Volara, on the philosophy of the Airship</cite>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ===== MURK ===== -->
+        <div class="char-card murk">
+
+          <div class="char-portrait">
+            <img src="https://s13.gifyu.com/images/bmfYM.png" alt="Murk" class="char-img">
+            <div class="char-portrait-name">Murk</div>
+            <div class="char-portrait-role">Crocodile · Coffee Devotee · Resident Grouch</div>
+          </div>
+
+          <div class="char-body">
+            <div class="char-name">Murk</div>
+            <div class="char-title">The Crocodile of the Rusted Swamp — Top Hat Aficionado, Coffee Absolutist</div>
+            <div class="char-tags">
+              <span class="char-tag">Rusted Swamp</span>
+              <span class="char-tag">Crocodile</span>
+              <span class="char-tag">Extremely Caffeinated</span>
+              <span class="char-tag">Do Not Approach Before Coffee</span>
+            </div>
+            <p class="char-blurb">
+              Murk does not have a morning personality. Murk has a <em>post-coffee</em> personality and a before-coffee personality, and only one of them is safe to be around.
+            </p>
+            <p class="char-blurb">
+              A crocodile of the Rusted Swamp, Murk has lived in the fog long enough to become part of it. His top hat — battered, slightly mossy, absolutely non-negotiable — is the tallest thing visible above the morning mist, which is how most Swamp residents know where he is and whether to approach. Hat tilted left: amenable. Hat tilted right: do not. Hat missing entirely: <em>a situation is developing</em>.
+            </p>
+            <p class="char-blurb">
+              He is not unfriendly. He is specifically, precisely, <em>grumpy</em> — which is different. There is warmth underneath it, the way there is warmth underneath the Rusted Swamp's fog: constant, real, and requiring some patience to find. Those who have put in the patience tend to stay. Murk tolerates this. Occasionally, he appreciates it.
+            </p>
+            <p class="char-blurb">
+              His relationship with coffee is not recreational. It is <em>structural</em>. The Rusted Swamp runs in part because Murk runs, and Murk runs on coffee — black, strong, and delivered without commentary about how much of it he has already had today.
+            </p>
+            <div class="char-quote">
+              <p>"I'm not grumpy. I'm calibrated. You're just catching me before I'm calibrated."</p>
+              <cite>— Murk, every morning, to everyone</cite>
+            </div>
+          </div>
+
+        </div>
+
+      </div><!-- /characters-wrap -->
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /container -->
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Winterworks Wonderland — The Brass Foundry</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    :root {
+      --ice:       #a8d8f0;
+      --ice-dim:   #2a4a60;
+      --frost:     #d8f0ff;
+      --silver:    #c0d0e0;
+      --silver-dim:#3a5060;
+      --snowglow:  #60a8d0;
+      --deep:      #0a1520;
+      --deep-mid:  #102030;
+      --ink:       #c0d8e8;
+      --gold:      #d6b36a;
+    }
+
+    body { background: #0a1520 !important; }
+
+    .sidebar {
+      background: linear-gradient(180deg, #102030, #0a1520) !important;
+      border-right: 2px solid var(--ice-dim) !important;
+    }
+    .logo {
+      color: var(--ice) !important;
+      text-shadow: 0 0 10px var(--snowglow), 0 0 30px rgba(96,168,208,0.3) !important;
+    }
+    .join-btn {
+      background: linear-gradient(to bottom, var(--snowglow), var(--ice-dim)) !important;
+      color: var(--frost) !important;
+    }
+
+    /* Snow particles */
+    .snowflake {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      color: var(--frost);
+      opacity: 0;
+      animation: snowFall linear infinite;
+      font-size: 1em;
+    }
+    @keyframes snowFall {
+      0%   { transform: translateY(-5vh) translateX(0) rotate(0deg);    opacity: 0; }
+      10%  { opacity: 0.7; }
+      90%  { opacity: 0.4; }
+      100% { transform: translateY(105vh) translateX(30px) rotate(360deg); opacity: 0; }
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .winter-header {
+      text-align: center;
+      padding: 60px 20px 10px;
+      position: relative;
+    }
+
+    .event-eyebrow {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.9em;
+      color: var(--silver);
+      letter-spacing: 3px;
+      margin-bottom: 14px;
+    }
+
+    .winter-header h1 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: clamp(1.4em, 4vw, 2.5em);
+      color: var(--frost);
+      text-shadow:
+        0 0 20px var(--ice),
+        0 0 60px rgba(96,168,208,0.4),
+        2px 2px 0 var(--ice-dim);
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+
+    .event-dates {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--gold);
+      font-size: 1em;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .event-subtitle {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--silver);
+      font-size: 1.05em;
+    }
+
+    .frost-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 28px auto 50px;
+      max-width: 600px;
+      color: var(--ice-dim);
+    }
+    .frost-divider::before,
+    .frost-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--ice-dim), transparent);
+    }
+
+    /* ===== WRAP ===== */
+    .event-wrap {
+      padding: 0 44px 120px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ===== SECTION CARD ===== */
+    .event-card {
+      background: linear-gradient(145deg, #102030ee, #0a1520ee);
+      border: 1px solid var(--ice-dim);
+      border-left: 4px solid var(--snowglow);
+      border-radius: 8px;
+      padding: 32px 38px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .event-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://www.transparenttextures.com/patterns/old-map.png');
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    /* Frost corner decoration */
+    .event-card::after {
+      content: '❄';
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      font-size: 1.4em;
+      opacity: 0.1;
+      color: var(--ice);
+      animation: frostSpin 20s linear infinite;
+    }
+    @keyframes frostSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .event-card h2 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1.15em;
+      color: var(--ice);
+      letter-spacing: 2px;
+      margin-bottom: 18px;
+      text-shadow: 0 0 8px rgba(168,216,240,0.3);
+    }
+
+    .event-card p {
+      font-family: 'IM Fell English', serif;
+      color: var(--ink);
+      line-height: 1.9;
+      font-size: 1.02em;
+      margin-bottom: 12px;
+    }
+
+    .event-card p em { color: var(--ice); font-style: italic; }
+
+    .rules-placeholder {
+      border: 2px dashed var(--ice-dim);
+      border-radius: 6px;
+      padding: 30px;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .rules-placeholder p {
+      color: var(--ice-dim);
+      font-style: italic;
+      margin: 0;
+      font-family: 'IM Fell English', serif;
+    }
+
+    /* ===== SUBMISSION GRID ===== */
+    .submission-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    /* ===== THUMBNAIL GRID ===== */
+    .thumb-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    /* 1 image — fill full width */
+    .thumb-grid img:only-child {
+      grid-column: 1 / -1;
+      aspect-ratio: 16/9;
+    }
+    /* 2 images — 2 equal columns */
+    .thumb-grid:has(img:nth-child(2):last-child) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .thumb-grid img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid var(--expo-dim);
+      cursor: pointer;
+      display: block;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .thumb-grid img:hover {
+      border-color: var(--expo-gold2);
+      transform: scale(1.04);
+    }
+
+    /* ===== LIGHTBOX ===== */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-overlay.open { display: flex; }
+    .lightbox-overlay img {
+      max-width: 88vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 6px;
+      border: 1px solid var(--expo-dim);
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 20px; right: 24px;
+      background: none; border: none;
+      color: var(--cream);
+      font-size: 2em;
+      cursor: pointer;
+      line-height: 1;
+      z-index: 10000;
+    }
+
+    /* ===== BOT IMAGE ===== */
+    .submission-slot img.bot-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .submission-slot img.bot-img:hover { transform: scale(1.02); }
+
+    @media (max-width: 768px) {
+      .event-wrap { padding: 0 14px 80px; }
+      .event-card { padding: 22px 18px; }
+      .submission-grid { grid-template-columns: 1fr; }
+      .expo-ribbon span { font-size: 0.55em; letter-spacing: 3px; }
+    }
+
+    /* ===== LIGHTBOX ===== */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-overlay.open { display: flex; }
+    .lightbox-overlay img {
+      max-width: 88vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 6px;
+      border: 1px solid var(--ice-dim);
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 20px; right: 24px;
+      background: none; border: none;
+      color: var(--frost);
+      font-size: 2em;
+      cursor: pointer;
+      line-height: 1;
+      z-index: 10000;
+    }
+
+    /* ===== BOT IMAGE ===== */
+    .submission-slot img.bot-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .submission-slot img.bot-img:hover { transform: scale(1.02); }
+
+    .slot-by {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.82em;
+      color: var(--silver);
+      margin-bottom: 4px;
+    }
+
+    .submission-slot {
+      background: linear-gradient(145deg, #152535, #0f1e2e);
+      border: 1px solid var(--ice-dim);
+      border-radius: 6px;
+      padding: 18px 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .submission-slot:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(96,168,208,0.2);
+    }
+
+    .slot-type {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.78em;
+      color: var(--snowglow);
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    .slot-name {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.82em;
+      color: var(--frost);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .slot-name.empty {
+      color: var(--ice-dim);
+      font-style: italic;
+      font-family: 'IM Fell English', serif;
+      font-size: 0.9em;
+    }
+
+    .slot-link {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.82em;
+      color: var(--silver);
+      text-decoration: none;
+      border-bottom: 1px solid var(--silver-dim);
+      transition: color 0.2s;
+    }
+    .slot-link:hover { color: var(--ice); }
+    .slot-link.empty { color: var(--ice-dim); font-style: italic; border: none; cursor: default; }
+
+    .slot-desc {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.82em;
+      color: #4a7090;
+      font-style: italic;
+      margin-top: 4px;
+    }
+
+    .main::-webkit-scrollbar { width: 6px; }
+    .main::-webkit-scrollbar-track { background: #0a1520; }
+    .main::-webkit-scrollbar-thumb { background: var(--ice-dim); border-radius: 3px; }
+
+    @media (max-width: 768px) {
+      .event-wrap { padding: 0 14px 80px; }
+      .event-card { padding: 22px 18px; }
+      .submission-grid { grid-template-columns: 1fr; }
+    }</style>
+</head>
+<body>
+
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<div id="loader">Igniting the Foundry...</div>
+<div class="smoke-overlay"></div>
+
+<!-- Snowflakes -->
+<div class="snowflake" style="left:5%;  animation-duration:10s; animation-delay:0s;">❄</div>
+<div class="snowflake" style="left:18%; animation-duration:14s; animation-delay:2s;">❅</div>
+<div class="snowflake" style="left:35%; animation-duration:11s; animation-delay:4s;">❆</div>
+<div class="snowflake" style="left:55%; animation-duration:16s; animation-delay:1s;">❄</div>
+<div class="snowflake" style="left:70%; animation-duration:12s; animation-delay:6s;">❅</div>
+<div class="snowflake" style="left:85%; animation-duration:13s; animation-delay:3s;">❆</div>
+<div class="snowflake" style="left:92%; animation-duration:9s;  animation-delay:8s;">❄</div>
+
+<div class="container">
+  <nav class="sidebar">
+    <h1 class="logo">⚙ The Brass Foundry</h1>
+    <ul>
+      <li><button onclick="location.href='index.html'">Home</button></li>
+      <li><button onclick="location.href='events.html'">Events</button></li>
+      <li><button onclick="location.href='characters.html'">Characters</button></li>
+      <li><button onclick="location.href='guild.html'">Guild Hall</button></li>
+    </ul>
+    <a href="https://discord.gg/bu6UQzX59m" class="join-btn">Enter the Foundry</a>
+  </nav>
+
+  <div class="main">
+    <div id="content" style="display:none;">
+
+      <div class="winter-header">
+        <div class="event-eyebrow">❄ A Brass Foundry Event ❄</div>
+        <h1>Winterworks Wonderland</h1>
+        <div class="event-dates">12/1/25 — 1/3/26</div>
+        <p class="event-subtitle">The Foundry is frozen. The gears are glittering. Welcome to winter.</p>
+        <div class="frost-divider">❄ ✦ ❄</div>
+      </div>
+
+      <div class="event-wrap">
+
+        <!-- ABOUT -->
+        <div class="event-card">
+          <h2>About the Event</h2>
+          <p>Winter has swept across the Brass Foundry in a roaring blizzard of invention, mischief, and mechanical cheer. For the first time in decades, the bitter cold has frozen the edges of the Rusted Swamp solid — transforming its murky marshes into a shimmering sheet of ice.
+<br>
+            With this sudden shift, The Embermire Union (the winter aspect of the Rusted Swamp folk) has risen to prominence. They’ve claimed the frozen wetlands as their seasonal domain, adorning the swamps with lantern-ice sculptures, warm forges, and glowing fungal torches that burn like embers in the frost.
+<br>
+            But not everyone is pleased.
+<br>
+            From the ice-crusted waterways of the Skyrail supports, the ever-chaotic Otter Squad emerges — bundled in mismatched scarves, armed with gear-powered snowball flingers, and absolutely determined to reclaim their rightful winter playground.  The Otter Squad has taken up arms and is ready for a snowball fight to the icy doom!
+<br>
+            The Foundry is officially a Winterworks battleground — and you are stepping into the fray.</p>
+        </div>
+
+        <!-- RULES -->
+        <div class="event-card">
+          <h2>📋 Rules & Guidelines</h2>
+          <div class="rules-placeholder">
+            <p><strong>Step 1:</strong> Choose your faction and join the fight.<br>
+Choose from The Embermire Union or The Otter Squad and prepare for battle. <br>
+<strong>Step 2:</strong> Create to earn snowballs for your faction!<br>
+Make <strong>Bots</strong> (30 points), <strong>Music</strong> (15 points), or <strong>Art</strong> (1 point) to contribute to the snowball stocks. Creating lore gives you 20 points for your team, and 5 points for every time you or someone uses it.<br>
+<strong>Step 3:</strong> Have fun!<br>
+Make silly, fun, wild contributions that showcase everything and anything you love about the winter, The Brass Foundry, and your friends.</p>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+        <!-- BOT SUBMISSIONS -->
+        <div class="event-card">
+          <h2>Bot Submissions</h2>
+          <p>Characters wrapped up warm and ready for the Wonderland. Click through to meet them.</p>
+          <div class="submission-grid">
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Aurora</div>
+              <a class="slot-link" href="https://crushon.ai/character/c0ba6c1e-aa7a-4127-872b-016254d22815/details" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://craveu.ai/character/aurora-2H6hFGs9" target="_blank">CraveU</a>
+              <div class="slot-desc">by niiori</div>            
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Elli</div>
+              <a class="slot-link" href="https://crushon.ai/character/e843e178-9d15-49f7-be01-f651d4382375/details" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://craveu.ai/character/elara-dPZ8oWjI" target="_blank">CraveU</a>
+              <div class="slot-desc">by niiori</div>            
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Mira</div>
+              <a class="slot-link" href="https://crushon.ai/character/e96fc5fc-56a5-443e-b0c9-6374bd1c004a/details" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://craveu.ai/character/mira-Hn352LGB" target="_blank">CraveU</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Kaori Yukimura</div>
+              <a class="slot-link" href="https://crushon.ai/character/cd95aa92-cce2-4a20-a33c-f4eefdbad020/details" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://craveu.ai/character/kaori-yukimura-IXCJmjit" target="_blank">CraveU</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Asha Kurobane</div>
+              <a class="slot-link" href="https://crushon.ai/character/2a94f894-f490-468d-a9c7-d6d4879b0b20/details" target="_blank">CrushOn AI</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Liora</div>
+              <a class="slot-link" href="https://crushon.ai/character/736ea035-fe79-48fb-a072-4da1f4116469/details" target="_blank">CrushOn AI</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">Echo-9</div>
+              <a class="slot-link" href="https://crushon.ai/en/character/ed68f3ab-f1e1-4999-a0e6-0067ee41deb7/details?shared=true" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://linkin.love/chat/6323258931" target="_blank">linkin.love</a>
+              <a class="slot-link" href="https://craveu.ai/character/echo-9-syLZ1zLv" target="_blank">CraveU</a>
+              <div class="slot-desc">by kookeyjar</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Clara</div>
+              <a class="slot-link" href="https://crushon.ai/character/46b65bc2-9ada-4947-988d-e88d2cc0daa6/details" target="_blank">CrushOn AI</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">Bramble</div>
+              <a class="slot-link" href="https://crushon.ai/en/character/3b105347-cd7f-46cc-9a0b-3dfdc9835607/details?shared=true" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://linkin.love/chat/6324424061" target="_blank">linkin.love</a>
+              <div class="slot-desc">by volara_of_velvet_gears</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">Sophie Carter</div>
+              <a class="slot-link" href="https://crushon.ai/en/character/3d525fd1-754a-4e12-a1a0-d314d5b8c443/details?shared=true" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://linkin.love/chat/6325423021" target="_blank">linkin.love</a>
+              <a class="slot-link" href="https://craveu.ai/character/sophie-carter-NF9ocMqC?update=true" target="_blank">CraveU</a>
+              <div class="slot-desc">by jupiter.blu</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Dimos</div>
+              <a class="slot-link" href="https://linkin.love/chat/6325609331" target="_blank">linkin.love</a>
+              <div class="slot-desc">by cantras_digital_bard</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Emma - Lonely Neighbor</div>
+              <a class="slot-link" href="https://crushon.ai/character/ff7869ae-0289-4b92-8103-67ce41377925/details" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://craveu.ai/character/emma-lonely-neighbor-Vrh8qW65" target="_blank">CraveU</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">Rowan | Skier's Savior</div>
+              <a class="slot-link" href="https://crushon.ai/en/character/3ba0c1fa-e2a8-4385-ac19-613a244e8170/details?shared=true" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://linkin.love/chat/6326069631" target="_blank">linkin.love</a>
+              <a class="slot-link" href="https://saucepan.ai/companion/6cb41134-f70e-44fc-9678-e371c820a5dd" target="_blank">SaucePan</a>
+              <div class="slot-desc">by volara_of_velvet_gears</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Julie - Sinister Jester</div>
+              <a class="slot-link" href="https://crushon.ai/character/d77b6ffb-ccea-4739-9eda-a44d8079ded6/details" target="_blank">CrushOn AI</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Nyrix - Frost Monarch</div>
+              <a class="slot-link" href="https://crushon.ai/character/c775c11c-f38b-4b5d-8e81-60d2125be7ac/details" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://craveu.ai/character/nyrix-frost-monarch-Afd2DnB3">CraveU</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">Azeroth</div>
+              <a class="slot-link" href="https://crushon.ai/en/character/ea2cc080-f96d-4ae3-b458-1ec842169ee2/details?shared=true" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://linkin.love/chat/6326438881" target="_blank">linkin.love</a>
+              <a class="slot-link" href="https://saucepan.ai/companion/f9bba7b6-e003-4586-b3fb-dfe054464485" target="_blank">SaucePan</a>
+              <div class="slot-desc">by volara_of_velvet_gears</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">Eirin</div>
+              <a class="slot-link" href="https://crushon.ai/en/character/f98de1d7-5bfb-4f85-9844-033016997286/details?shared=true" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://linkin.love/chat/6335997741" target="_blank">linkin.love</a>
+              <a class="slot-link" href="https://craveu.ai/character/eirin-9Zbd4nkD" target="_blank">CraveU</a>
+              <div class="slot-desc">by kookeyjar</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Alaric - Cozy Brother</div>
+              <a class="slot-link" href="https://crushon.ai/character/9a005a05-bae8-4f7c-9024-e2d7cbc6a763/details?from=ChatRoomScreen" target="_blank">CrushOn AI</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Kaelen | Red Handed</div>
+              <a class="slot-link" href="https://craveu.ai/character/kaelen-red-handed-yKduIPNb" target="_blank">CraveU</a>
+              <div class="slot-desc">by bitofanerd</div>                
+            </div>
+             <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Ria - Christmas Party</div>
+              <a class="slot-link" href="https://crushon.ai/character/e46fac61-bc09-4f82-961b-2145c14b534b/details?from=ChatRoomScreen" target="_blank">CrushOn AI</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Koneko - City Runner</div>
+              <a class="slot-link" href="https://crushon.ai/character/9ce52850-8305-41a2-9eaa-e290d585c34e/details?from=ChatRoomScreen" target="_blank">CrushOn AI</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Lynn - Lonely Bunny Girl</div>
+              <a class="slot-link" href="https://crushon.ai/character/eac92033-c19f-4c6d-8a13-aabb92fb7aef/details?from=ChatRoomScreen" target="_blank">CrushOn AI</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Sophie - Christmas Spirit</div>
+              <a class="slot-link" href="https://crushon.ai/character/9402a8ca-ad42-4617-9ba3-3aee70bed78f/details?from=ChatRoomScreen" target="_blank">CrushOn AI</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">Escaping Maria</div>
+              <a class="slot-link" href="https://crushon.ai/it/character/5255b635-ac5e-4458-af8c-a472a7ca3745/details?shared=true" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://craveu.ai/it/character/oc-escaping-maria-1iiKH9dG" target="_blank">CraveU</a>
+              <a class="slot-link" href="https://janitorai.com/characters/06386d38-5a79-4f92-b4e0-ba2c17f90088_character-oc-escaping-maria" target="_blank">JanitorAI</a>
+              <div class="slot-desc">by redhime_ai</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">OBERHASLI</div>
+              <a class="slot-link" href="https://crushon.ai/it/character/5b5b37a0-604d-4543-b8c3-73ee518ca6cc/details?shared=true" target="_blank">CrushOn AI</a>
+              <div class="slot-desc">by redhime_ai</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Frostine | The Solstice Snow Angel</div>
+              <a class="slot-link" href="https://craveu.ai/character/frostine-the-solstice-snow-angel-yssEfGCY" target="_blank">CraveU</a>
+              <div class="slot-desc">by bitofanerd</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Rina Colver</div>
+              <a class="slot-link" href="https://crushon.ai/en/character/20df4890-8299-4b9f-8fb2-6db160a551ce/details?shared=true" target="_blank">CrushOn AI</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Mika - Christmas Ramen</div>
+              <a class="slot-link" href="https://crushon.ai/en/character/a06e2ce8-0e3a-44a0-92a6-8ffedc08d783/details?shared=true" target="_blank">CrushOn AI</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">Logan | Heated Hockey</div>
+              <a class="slot-link" href="https://crushon.ai/en/character/a723f000-4cdd-4f1f-b4af-d0d4810d0d87/details?shared=true" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://linkin.love/chat/6350332051" target="_blank">linkin.love</a>
+              <a class="slot-link" href="https://saucepan.ai/companion/dceb3048-1a01-45b9-bd69-f84b572a52bc" target="_blank">SaucePan</a>
+              <div class="slot-desc">by volara_of_velvet_gears</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Mira</div>
+              <a class="slot-link" href="https://crushon.ai/character/e96fc5fc-56a5-443e-b0c9-6374bd1c004a/details" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://craveu.ai/character/mira-Hn352LGB" target="_blank">CraveU</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">Velthyra - The Undying Sovereign</div>
+              <a class="slot-link" href="https://crushon.ai/en/character/582fd85f-53c2-477a-a177-628f5855fae7/details?shared=true" target="_blank">CrushOn AI</a>
+              <div class="slot-desc">by niiori</div>                
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">Jingle Whiskerpaws</div>
+              <a class="slot-link" href="https://crushon.ai/en/character/fe206bcb-d0db-4eaa-acd4-db2ff56e9e04/details?shared=true" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://linkin.love/chat/6339284911" target="_blank">linkin.love</a>
+              <div class="slot-desc">by volara_of_velvet_gears</div>                
+            </div>
+   <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">Tinsel Whiskerpaws</div>
+              <a class="slot-link" href="https://crushon.ai/en/character/8a3fdec8-2517-4eb8-a111-d6d667fdfd31/details?shared=true" target="_blank">CrushOn AI</a>
+              <a class="slot-link" href="https://linkin.love/chat/6339283651" target="_blank">linkin.love</a>
+              <div class="slot-desc">by volara_of_velvet_gears</div>                
+            </div>
+        </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- MUSIC SUBMISSIONS -->
+        <div class="event-card">
+          <h2>Music Submissions</h2>
+          <p>The winter soundtrack — brass instruments in cold air, clockwork carols, and songs for the long night.</p>
+          <div class="submission-grid">
+     <div class="submission-slot">
+                <div class="slot-type">The Rusted Swamp</div>
+                <div class="slot-name empty">by niiori</div>
+                <a class="slot-link" href="https://suno.com/s/lc5Syus1zmu5Z7El" target="_blank">Midwinter Awakening</a>
+            </div>
+            <div class="submission-slot">
+                <div class="slot-type">Otter Squad</div>
+                <div class="slot-name empty">by kookeyjar</div>
+                <a class="slot-link" href="https://suno.com/s/NUAQBerxREBhm3fJ" target="_blank">Palatial Ice</a>
+            </div>
+            <div class="submission-slot">
+                <div class="slot-type">Otter Squad</div>             
+                <div class="slot-name empty">by kookeyjar</div>
+                <a class="slot-link" href="https://suno.com/s/x3LPSZ89x3JsuyFe" target="_blank">Snowball Showdown</a>
+            </div>
+            <div class="submission-slot">
+                <div class="slot-type">The Rusted Swamp</div>             
+                <div class="slot-name empty">by niiori</div>
+                <a class="slot-link" href="https://suno.com/s/k7F4B1PwMlF00z8R" target="_blank">Winter Battle</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by volara_of_velvet_gears</div>
+              <a class="slot-link" href="https://suno.com/s/ryOexVpfZvUkUjWG" target="_blank">Come All Ye Misfits</a>
+            </div>
+   <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/KxxTFOpDCTZiPtDQ" target="_blank">Otter Squad</a>              
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/Cqpw2BlYEUSQWadD" target="_blank">Queen of the Quiet Cold</a>
+            </div>
+            <div class="submission-slot">
+               <div class="slot-type">Otter Squad</div>
+                <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/67ZVFVNf6sRTsxDR" target="_blank">The Boy in the Glass</a>
+            </div>
+  <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">by niiori</div>
+              <a class="slot-link" href="https://suno.com/s/HGMeqV7MugROqZ86">BLizzard in the Mire</a>
+            </div>
+   <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">by nebby_the_nebula</div>
+              <a class="slot-link" href="https://suno.com/s/GR77obJFhm6ALIpi" target="_blank">Go to Hell, Snow</a>
+            </div>
+
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">by niiori</div>
+              <a class="slot-link" href="https://suno.com/s/3Dhk6jlmcrx58cRq" target="_blank">Different Kind of Christmas</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/Ec8GOYUdhZfz8PWu" target="_blank">Winter</a>
+            </div>
+   <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/uiJdJZchQFvTMET7" target="_blank">Snow, Come Find Me</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/wRVVOyqFQlsdlM2A" target="_blank">Tundra Echoes</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/tCZ8IkoxjQvZ2Com" target="_blank">Cocoa Cheer</a>
+            </div>
+  <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/yO6qdIMHaKeaNHew" target="_blank">Across the Winter Sky</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/RtnvE5bwRpDQDjyX" target="_blank">Alive Like That</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/i6FjWOulJ29QwhLB" target="_blank">Throne of Frost</a>
+            </div>
+   <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/z893WF43O8wOLWuS" target="_blank">Neon Snow</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/OBGIuMp8I0Vc9mpm" target="_blank">End of Semester</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">by niiori</div>
+              <a class="slot-link" href="https://suno.com/s/Zzm9kpiAiuaMmQva" target="_blank">Silent Night, Loud Thoughts</a>
+            </div>
+  <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/gILfF0wuwJfhgJqG" target="_blank">Holiday Lights</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">by niiori</div>
+              <a class="slot-link" href="https://suno.com/s/9BuzPOYkpPFkHCSP" target="_blank">Santa Stuck in the Chimney</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/5CUTfoiRT4VF01pl" target="_blank">Hollow Holidays</a>
+            </div>
+   <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/Dw9Ja4r6c3PEQxWT" target="_blank">Krampus is Coming Tonight</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/0U8AIQ6HRarmTPmv" target="_blank">Chrome Plated Sleigh</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/QnN8G30YeJMFPkql" target="_blank">After the Lights Go Out</a>
+            </div>
+  <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/GmsnA1iLSzTn7j9w" target="_blank">December, Softer</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/aepC6PtmEVPz14Mo" target="_blank">Mint Rush</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">by niiori</div>
+              <a class="slot-link" href="https://suno.com/s/HYJZ8uUdcpTQGDXp" target="_blank">Santa at the Door</a>
+            </div>
+   <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/M9wySsI5bAwrx0ZS" target="_blank">Hibernate With Me</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/2LfuSRUdjlnpokTp" target="_blank">Not Your Christmas Wish</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/zHtyl2ERcc4gkgU4" target="_blank">Under the Flower Bed</a>
+            </div>
+  <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">by niiori</div>
+              <a class="slot-link" href="https://suno.com/s/mR8czKFwMT707vXc" target="_blank">Brass & Frostbite</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/kekzLOQSHLmFtAyS" target="_blank">Plastic Halo</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/ZN2tKGXpGSBXlI5U" target="_blank">Frostbite Frequency</a>
+            </div>
+   <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by redhime_ai</div>
+              <a class="slot-link" href="https://suno.com/s/Giuc2Li53lTJm2zo" target="_blank">Let My Fire Melt Your Snow</a>
+            </div>
+            <div class="submission-slot">
+               <div class="slot-type">Otter Squad</div>
+                <div class="slot-name empty">by kookeyjar</div>
+              <a class="slot-link" href="https://suno.com/s/SJi0F9qXNDvfv0IO" target="_blank">Midnight Rewind</a>
+            </div>
+   <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="slot-name empty">by niiori</div>
+              <a class="slot-link" href="https://suno.com/s/Xixh6PakGZ8BIA7T" target="_blank">Christmas Sins</a>
+            </div>
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="slot-name empty">by volara_of_velvet_gears</div>
+              <a class="slot-link" href="https://suno.com/s/T8Zw4RcAu0RySFBm" target="_blank">Winter Chill</a>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- ART SUBMISSIONS -->
+        <div class="event-card">
+          <h2>🎨 Art Submissions</h2>
+          <p>Frozen Skyrail Docks, clockwork snowglobes, frost-covered Inventor's Row. The Foundry in winter, as seen through its members' eyes.</p>
+          <div class="submission-grid">
+
+            <!-- niiori — 1 image -->
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmtTo.md.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by niiori</div>
+            </div>
+
+            <!-- kookeyjar — 1 image -->
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmtTe.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by kookeyjar</div>
+            </div>
+
+            <!-- jupiter.blu — 2 images -->
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmtwK.jpg" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtwH.jpg" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by jupiter.blu</div>
+            </div>
+
+            <!-- nebby_the_nebula — 1 image -->
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmtwk.md.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by nebby_the_nebula</div>
+            </div>
+
+            <!-- nebby_the_nebula — 1 image -->
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmtw7.md.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by nebby_the_nebula</div>
+            </div>
+
+            <!-- volara_of_velvet_gears — 3 images -->
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmtwn.md.png" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtwg.md.png" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtw6.md.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by volara_of_velvet_gears</div>
+            </div>
+
+            <!-- redhime_ai — 1 image -->
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmtw0.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by redhime_ai</div>
+            </div>
+
+            <!-- nebby_the_nebula — 3 images -->
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmtw5.md.png" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtwX.md.png" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmt3S.md.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by nebby_the_nebula</div>
+            </div>
+
+            <!-- kookeyjar — 1 image -->
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmt3M.md.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by kookeyjar</div>
+            </div>
+
+            <!-- nebby_the_nebula — 1 image -->
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmt3x.md.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by nebby_the_nebula</div>
+            </div>
+
+            <!-- volara_of_velvet_gears — 1 image -->
+            <div class="submission-slot">
+              <div class="slot-type">Otter Squad</div>
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmt3N.md.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by volara_of_velvet_gears</div>
+            </div>
+
+            <!-- bitofanerd — 1 image -->
+            <div class="submission-slot">
+              <div class="slot-type">The Rusted Swamp</div>
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmt33.md.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by bitofanerd</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+  function openLightbox(img) {
+    document.getElementById("lightbox-img").src = img.src;
+    document.getElementById("lightbox").classList.add("open");
+  }
+  function closeLightbox() {
+    document.getElementById("lightbox").classList.remove("open");
+    document.getElementById("lightbox-img").src = "";
+  }
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") closeLightbox();
+  });
+</script>
+</body>
+</html>

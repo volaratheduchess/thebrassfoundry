@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steampunk Slumber Party — The Brass Foundry</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    :root {
+      --blush:      #e8a0a0;
+      --blush-dim:  #7a3a3a;
+      --rose:       #c45c5c;
+      --cream:      #f5e6d0;
+      --lavender:   #b89ac0;
+      --lav-dim:    #5a4a6a;
+      --candle:     #f0b060;
+      --dark:       #1a0d10;
+      --dark-mid:   #2a1518;
+      --ink:        #d4c0b8;
+    }
+
+    body { background: #1a0d10 !important; }
+
+    .sidebar {
+      background: linear-gradient(180deg, #2a1518, #1a0d10) !important;
+      border-right: 2px solid var(--blush-dim) !important;
+    }
+    .logo { color: var(--blush) !important; text-shadow: 0 0 10px var(--rose) !important; }
+    .join-btn { background: linear-gradient(to bottom, var(--rose), var(--blush-dim)) !important; color: var(--cream) !important; }
+
+    .sparkle {
+      position: fixed; pointer-events: none; z-index: 0;
+      font-size: 1em; opacity: 0;
+      animation: sparkleFloat linear infinite;
+    }
+    @keyframes sparkleFloat {
+      0%   { transform: translateY(100vh) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    .slumber-header { text-align: center; padding: 60px 20px 10px; }
+    .event-eyebrow { font-family: 'IM Fell English', serif; font-style: italic; font-size: 0.9em; color: var(--lavender); letter-spacing: 3px; margin-bottom: 14px; }
+    .slumber-header h1 { font-family: 'Cinzel Decorative', cursive; font-size: clamp(1.4em, 4vw, 2.6em); color: var(--blush); text-shadow: 0 0 20px var(--rose), 0 0 50px rgba(196,92,92,0.3); letter-spacing: 3px; margin-bottom: 12px; }
+    .event-dates { font-family: 'IM Fell English', serif; font-style: italic; color: var(--candle); font-size: 1em; letter-spacing: 2px; margin-bottom: 8px; }
+    .event-subtitle { font-family: 'IM Fell English', serif; font-style: italic; color: var(--lavender); font-size: 1.05em; }
+
+    .pyjama-divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 28px auto 50px; max-width: 600px; color: var(--blush-dim); }
+    .pyjama-divider::before, .pyjama-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--blush-dim), transparent); }
+
+    .event-wrap { padding: 0 44px 120px; max-width: 960px; margin: 0 auto; }
+
+    .event-card {
+      background: linear-gradient(145deg, #2a1518ee, #1a0d10ee);
+      border: 1px solid var(--blush-dim);
+      border-left: 4px solid var(--rose);
+      border-radius: 8px; padding: 32px 38px; margin-bottom: 32px;
+      position: relative; overflow: hidden;
+    }
+    .event-card::before { content: ''; position: absolute; inset: 0; background: url('https://www.transparenttextures.com/patterns/old-map.png'); opacity: 0.04; pointer-events: none; }
+    .event-card h2 { font-family: 'Cinzel Decorative', cursive; font-size: 1.15em; color: var(--blush); letter-spacing: 2px; margin-bottom: 18px; }
+    .event-card p { font-family: 'IM Fell English', serif; color: var(--ink); line-height: 1.9; font-size: 1.02em; margin-bottom: 12px; }
+    .event-card p em { color: var(--blush); font-style: italic; }
+
+    /* Location cards */
+    .location-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin-top: 14px; }
+    .loc-card { background: linear-gradient(145deg, #3a2025, #2a1518); border: 1px solid var(--blush-dim); border-top: 3px solid var(--rose); border-radius: 6px; padding: 20px; }
+    .loc-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; margin-bottom: 12px; display: block; }
+    .loc-card h3 { font-family: 'Cinzel Decorative', cursive; font-size: 0.85em; color: var(--blush); letter-spacing: 1px; margin-bottom: 10px; }
+    .loc-card p { font-family: 'IM Fell English', serif; color: var(--ink); font-size: 0.95em; line-height: 1.78; margin: 0; }
+
+    /* Submission grid */
+    .submission-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; margin-top: 16px; }
+    .submission-slot { background: linear-gradient(145deg, #3a2025, #2a1518); border: 1px solid var(--blush-dim); border-radius: 6px; padding: 18px 20px; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .submission-slot:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(196,92,92,0.2); }
+    .slot-type { font-family: 'IM Fell English', serif; font-style: italic; font-size: 0.78em; color: var(--rose); letter-spacing: 2px; margin-bottom: 8px; }
+    .slot-name { font-family: 'Cinzel Decorative', cursive; font-size: 0.82em; color: var(--cream); letter-spacing: 1px; margin-bottom: 4px; margin-top: 10px; }
+    .slot-name.empty { color: var(--blush-dim); font-style: italic; font-family: 'IM Fell English', serif; font-size: 0.9em; }
+    .slot-by { font-family: 'IM Fell English', serif; font-size: 0.82em; color: var(--lavender); margin-bottom: 4px; }
+    .slot-link { font-family: 'IM Fell English', serif; font-size: 0.82em; color: var(--lavender); text-decoration: none; border-bottom: 1px solid var(--lav-dim); transition: color 0.2s; display: inline-block; margin-right: 8px; margin-top: 4px; }
+    .slot-link:hover { color: var(--blush); }
+    .slot-link.empty { color: var(--blush-dim); font-style: italic; border: none; cursor: default; }
+
+    /* ===== THUMBNAIL GRID ===== */
+    .thumb-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .thumb-grid img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid var(--blush-dim);
+      cursor: pointer;
+      display: block;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .thumb-grid img:hover {
+      border-color: var(--rose);
+      transform: scale(1.04);
+    }
+
+    /* ===== LIGHTBOX ===== */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-overlay.open {
+      display: flex;
+    }
+    .lightbox-overlay img {
+      max-width: 88vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 6px;
+      border: 1px solid var(--blush-dim);
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      background: none;
+      border: none;
+      color: var(--cream);
+      font-size: 2em;
+      cursor: pointer;
+      line-height: 1;
+      z-index: 10000;
+    }
+
+    .main::-webkit-scrollbar { width: 6px; }
+    .main::-webkit-scrollbar-track { background: #1a0d10; }
+    .main::-webkit-scrollbar-thumb { background: var(--blush-dim); border-radius: 3px; }
+
+    @media (max-width: 768px) {
+      .event-wrap { padding: 0 14px 80px; }
+      .event-card { padding: 22px 18px; }
+      .location-grid, .submission-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<div id="loader">Igniting the Foundry...</div>
+<div class="smoke-overlay"></div>
+
+<div class="sparkle" style="left:10%; animation-duration:12s; animation-delay:0s;">✦</div>
+<div class="sparkle" style="left:25%; animation-duration:16s; animation-delay:3s;">⭐</div>
+<div class="sparkle" style="left:50%; animation-duration:10s; animation-delay:1s;">✨</div>
+<div class="sparkle" style="left:72%; animation-duration:14s; animation-delay:5s;">✦</div>
+<div class="sparkle" style="left:88%; animation-duration:18s; animation-delay:7s;">⭐</div>
+
+<div class="container">
+  <nav class="sidebar">
+    <h1 class="logo">⚙ The Brass Foundry</h1>
+    <ul>
+      <li><button onclick="location.href='index.html'">Home</button></li>
+      <li><button onclick="location.href='events.html'">Events</button></li>
+      <li><button onclick="location.href='characters.html'">Characters</button></li>
+      <li><button onclick="location.href='guild.html'">Guild Hall</button></li>
+    </ul>
+    <a href="https://discord.gg/bu6UQzX59m" class="join-btn">Enter the Foundry</a>
+  </nav>
+
+  <div class="main">
+    <div id="content" style="display:none;">
+
+      <div class="slumber-header">
+        <div class="event-eyebrow">⚙ A Brass Foundry Event ⚙</div>
+        <h1>Steampunk Slumber Party</h1>
+        <div class="event-dates">8/27/25 — 9/15/25</div>
+        <p class="event-subtitle">Gears down. Goggles off. It's time to get cozy in the Foundry.</p>
+        <div class="pyjama-divider">🌙 ✦ 🌙</div>
+      </div>
+
+      <div class="event-wrap">
+
+        <!-- ABOUT -->
+        <div class="event-card">
+          <h2>About the Event</h2>
+          <p>The furnaces are banked low. The Cogspire chimes have been set to a gentler hour. For a brief, beautiful window of time, the Brass Foundry trades its clattering ambition for something softer — blankets, candlelight, and the particular chaos that only happens when a bunch of creative souls decide to have a sleepover.</p>
+          <p>The Steampunk Slumber Party is the Foundry at its most <em>unguarded</em>. Bring your characters, your creativity, and your most elaborate fictional pyjamas.</p>
+        </div>
+
+        <!-- LOCATIONS -->
+        <div class="event-card">
+          <h2>Event Locations</h2>
+          <p>Four cozy corners of the Foundry, opened up for the night.</p>
+          <div class="location-grid">
+            <div class="loc-card">
+              <img src="https://cdn.discordapp.com/attachments/1410459598049251549/1410459599403880570/IMG_5809.jpg?ex=69c7ed9d&is=69c69c1d&hm=3ba95799f17c422b1c5d804d0ca76c94f20e0934f643aebe91e1287ebe7401b4&" alt="Brass Bunks">
+              <h3>Brass Bunks</h3>
+              <p>Rows of brass-framed bunks sway gently on pulley chains. Patchwork quilts stitched with maps and constellations invite people to settle in. A metronome ticks softly like a heartbeat.</p>
+            </div>
+            <div class="loc-card">
+              <img src="https://media.discordapp.net/attachments/1410459598049251549/1410459599731163187/IMG_5808.jpg?ex=69c7ed9d&is=69c69c1d&hm=c71d6d70173a411a8ead072f66caad0f184b41827afc72cf11b6e5e4904a1d8d&=&format=webp&width=841&height=841" alt="Copper Kitchen">
+              <h3>Copper Kitchen</h3>
+              <p>Warm lamplight glints off copper pots and gear-driven kettles. The air smells faintly of cinnamon and coal smoke. A clockwork whisk stirs itself lazily in a mixing bowl.</p>
+            </div>
+            <div class="loc-card">
+              <img src="https://cdn.discordapp.com/attachments/1410459598049251549/1410459600087420928/IMG_5807.jpg?ex=69c7ed9d&is=69c69c1d&hm=96d323e9f288ce0194a353643272dd7cfec0be8525d0ed590cd4094f73e8cdb8&" alt="Starlight Observatory">
+              <h3>Starlight Observatory</h3>
+              <p>A vaulted attic of glass and brass, where telescopes peer into endless sky. Gears whir quietly as star maps shift across the dome. Candles flicker in lanterns, casting long shadows.</p>
+            </div>
+            <div class="loc-card">
+              <img src="https://cdn.discordapp.com/attachments/1410459598049251549/1410459600397926461/IMG_5820.jpg?ex=69c7ed9d&is=69c69c1d&hm=d052f5c19538265d1965a57a56f2bba04e451549a20f91424849e4fe2afa8708&" alt="Ironclad Library">
+              <h3>Ironclad Library</h3>
+              <p>Towering shelves of leather-bound tomes stretch into the dim light, their spines glinting with brass inlays. Ladders on rails creak as they glide from stack to stack. Pneumatic tubes hiss softly, carrying secret notes between shelves.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOT SUBMISSIONS -->
+        <div class="event-card">
+          <h2>Bot Submissions</h2>
+          <p>Characters brought to life for the slumber party.</p>
+          <div class="submission-grid">
+            <div class="submission-slot">
+                <div class="slot-name">𝐃𝐢𝐨𝐧 | 𝐀 𝐂𝐨𝐦𝐩𝐥𝐢𝐜𝐚𝐭𝐞𝐝 𝐇𝐢𝐬𝐭𝐨𝐫𝐲...</div>
+              <div class="slot-by">by volara_of_velvet_gears</div>
+              <a class="slot-link" href="https://crushon.ai/en/character/d5de22c2-c930-4d58-b556-481487fcc85c/details?shared=true" target="_blank">CrushOn AI</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- MUSIC SUBMISSIONS -->
+        <div class="event-card">
+          <h2>Music Submissions</h2>
+          <p>The soundtrack to a very cozy, very steampunk night in.</p>
+          <div class="submission-grid">
+            <div class="submission-slot">
+              <div class="slot-type">Music</div>
+              <div class="slot-name empty">[ No submissions yet ]</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ART SUBMISSIONS -->
+        <div class="event-card">
+          <h2>Art Submissions</h2>
+          <p>Cozy scenes, sleepy characters, and everything the Foundry dreams up after midnight.</p>
+          <div class="submission-grid">
+
+            <div class="submission-slot">
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmtMf.png" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtMa.png" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtMt.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-by">by lordcommissarmanslaughter</div>
+            </div>
+
+            <div class="submission-slot">
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmtMY.png" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtMr.png" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtM5.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-by">by NeoNova</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+  function openLightbox(img) {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.getElementById('lightbox-img').src = '';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
+</body>
+</html>
