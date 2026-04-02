@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music — Niori</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="niori-music.css">
+</head>
+<body class="niori">
+
+<a class="back-btn" href="javascript:history.back()">← Back</a>
+
+<div class="murk-cameo" id="murk-cameo">
+  <span>🎵 The swamp makes sounds. Some of them are music.</span>
+  <img src="https://s13.gifyu.com/images/bmfYM.png" alt="Murk">
+</div>
+
+<canvas id="fog-canvas"></canvas>
+<canvas id="firefly-canvas"></canvas>
+
+<audio id="main-audio" preload="none"></audio>
+<div class="page-header">
+  <div class="page-eyebrow">Songs Born from the Fog</div>
+  <h1>Music</h1>
+  <p class="subtitle">The Swamp makes sounds. Some of them are intentional.</p>
+  <div class="s-divider"><span>🎵 ✦ 🎵</span></div>
+</div>
+
+<div class="page-wrap">
+
+  <div class="s-card" style="margin-bottom:28px;">
+    <h2>From the Rusted Swamp</h2>
+    <p>Music created for the Brass Foundry, the Rusted Swamp, and whatever the fog was doing on the night these were made. Click a card to play, or use the playlist bar below.</p>
+    <p>The playlist bar at the bottom plays audio and persists across pages. Press <em>♪ Playlist</em> to browse, skip, or control volume.</p>
+  </div>
+
+  <div class="track-grid">
+     <div class="track-card" id="card-0" onclick="playTrack(0)">
+      <div class="track-name">Niori.exe</div>
+      <div class="track-sub">by Niori</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/cxf0rJbjOMv0cVSf" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-1" onclick="playTrack(1)">
+      <div class="track-name">Clockwork Mire</div>
+      <div class="track-sub">by Niori</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/h20rGRBrODho2afJ" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-2" onclick="playTrack(2)">
+      <div class="track-name">Echoes in the Pit</div>
+      <div class="track-sub">by Niori</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/mJwi2SDIFephe01p" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-3" onclick="playTrack(3)">
+      <div class="track-name">Locked in my Mind</div>
+      <div class="track-sub">by Niori</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/WYkge7iXlpIZ4MzC" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>  
+    <div class="track-card" id="card-4" onclick="playTrack(4)">
+      <div class="track-name">Medicated (Outta Time)</div>
+      <div class="track-sub">by Niori</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/DfFjZJmPZl8YwNZS" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-5" onclick="playTrack(5)">
+      <div class="track-name">My Sunshine</div>
+      <div class="track-sub">by Niori</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/8DTYqGozIiEAc41V" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>    
+    </div>
+    <div class="track-card" id="card-6" onclick="playTrack(6)">
+      <div class="track-name">Numb Inside</div>
+      <div class="track-sub">by Niori</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/KNTQcrKsNNIhhnJd" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-7" onclick="playTrack(7)">
+      <div class="track-name">Side Effects</div>
+      <div class="track-sub">by Niori</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/ZNIQfT7S7Jh7mJKn" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-8" onclick="playTrack(8)">
+      <div class="track-name">Swallow the Lie</div>
+      <div class="track-sub">by Niori</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/Zs82eoqcsFelcwed" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-9" onclick="playTrack(9)">
+      <div class="track-name">Talk About It</div>
+      <div class="track-sub">by Niori</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/fDvJGhh7Nv69V4MI" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-10" onclick="playTrack(10)">
+      <div class="track-name">Withdrawl - Placebo</div>
+      <div class="track-sub">by Niori</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/SIYkITMr9HGaf5bm" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-11" onclick="playTrack(11)">
+      <div class="track-name">World to Me</div>
+      <div class="track-sub">by Niori</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/syGrPfyOC3jG5qZv" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" style="opacity:0.45;border-style:dashed;cursor:default;" onclick="event.stopPropagation()">
+      <div class="track-name" style="color:#1a7a08;">More Incoming</div>
+      <div class="track-desc">The fog is still composing. Check back.</div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<!-- MUSIC BAR -->
+<div class="music-bar" id="music-bar">
+  <button class="music-bar-btn" id="bar-playpause" onclick="barToggle()">▶</button>
+  <button class="music-bar-btn" onclick="barPrev()">‹</button>
+  <button class="music-bar-btn" onclick="barNext()">›</button>
+  <div class="music-progress-wrap" onclick="barSeek(event)">
+    <div class="music-progress-bar" id="bar-progress"></div>
+  </div>
+  <span class="music-now" id="bar-now">🐊 Select a track to begin</span>
+  <div class="music-vol-wrap">
+    <span class="music-vol-label">vol</span>
+    <input type="range" id="bar-vol" min="0" max="1" step="0.05" value="0.4">
+  </div>
+  <button class="music-bar-btn" onclick="openPlaylist()">♪ Playlist</button>
+</div>
+
+<!-- PLAYLIST MODAL -->
+<div class="playlist-overlay" id="playlist-overlay" onclick="closePlaylistOutside(event)">
+  <div class="playlist-modal">
+    <div class="playlist-header">
+      <span class="playlist-title">🐊 Rusted Swamp Playlist</span>
+      <button class="playlist-close" onclick="closePlaylist()">✕</button>
+    </div>
+    <div class="playlist-controls">
+      <button class="pl-btn" onclick="barPrev()">‹ Prev</button>
+      <button class="pl-btn pl-playpause" id="pl-playpause" onclick="barToggle()">▶</button>
+      <button class="pl-btn" onclick="barNext()">Next ›</button>
+      <div class="pl-progress-wrap" onclick="barSeek(event)">
+        <div class="pl-progress-bar" id="pl-progress"></div>
+      </div>
+      <span class="pl-time" id="pl-time">0:00</span>
+    </div>
+    <div class="playlist-tracks" id="playlist-tracks"></div>
+    <div class="pl-now-playing" id="pl-now">Select a track to begin</div>
+  </div>
+</div>
+<script>
+window.MUSIC_CONFIG = {
+  tracks: [  {"name":"Niori.exe","sub":"by Niori","src":"Niori.exe.mp3","suno":"https://suno.com/s/cxf0rJbjOMv0cVSf"},
+  {"name":"Clockwork Mire","sub":"by Niori","src":"","suno":"https://suno.com/s/h20rGRBrODho2afJ"},
+  {"name":"Echoes in the Pit","sub":"by Niori","src":"Echoes in the Pit.mp3","suno":"https://suno.com/s/mJwi2SDIFephe01p"},
+  {"name":"Locked in My Mind","sub":"by Niori","src":"Locked in My Mind.mp3","suno":"https://suno.com/s/WYkge7iXlpIZ4MzC"},
+  {"name":"Medicated (Outta Time)","sub":"by Niori","src":"Medicated (Outta Time).mp3","suno":"https://suno.com/s/DfFjZJmPZl8YwNZS"},
+  {"name":"My Sunshine","sub":"by Niori","src":"My Sunshine.mp3","suno":"https://suno.com/s/8DTYqGozIiEAc41V"},
+  {"name":"Numb Inside","sub":"by Niori","src":"Numb Inside.mp3","suno":"https://suno.com/s/KNTQcrKsNNIhhnJd"},
+  {"name":"Side Effects","sub":"by Niori","src":"Side Effects.mp3","suno":"https://suno.com/s/ZNIQfT7S7Jh7mJKn"},
+  {"name":"Swallow the Lie","sub":"by Niori","src":"Swallow the Lie.mp3","suno":"https://suno.com/s/Zs82eoqcsFelcwed"},
+  {"name":"Talk About It","sub":"by Niori","src":"Talk About It.mp3","suno":"https://suno.com/s/fDvJGhh7Nv69V4MI"},
+  {"name":"Withdrawal - Placebo","sub":"by Niori","src":"Withdrawal - Placebo.mp3","suno":"https://suno.com/s/SIYkITMr9HGaf5bm"},
+  {"name":"World to Me","sub":"by Niori","src":"World to me.mp3","suno":"https://suno.com/s/syGrPfyOC3jG5qZv"},
+],
+  sessionKey: 'niori',
+  barIcon: '🐊'
+};
+</script>
+<script src="shared.js"></script>
+<script src="music-player.js"></script>
+
+</body>
+</html>
