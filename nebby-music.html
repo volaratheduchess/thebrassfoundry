@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music — Nebby</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="nebby-music.css">
+</head>
+<body class="nebby">
+
+<a class="back-btn" href="javascript:history.back()">← Back</a>
+
+
+
+<canvas id="star-canvas"></canvas>
+
+<audio id="main-audio" preload="none"></audio>
+<div class="page-header">
+  <div class="page-eyebrow">Music from the Galaxy Soul</div>
+  <h1>Music</h1>
+  <p class="subtitle">Layered. Cosmic. Made to reach you.</p>
+  <div class="s-divider"><span>✦ 🌌 ✦</span></div>
+</div>
+
+<div class="page-wrap">
+
+  <div class="s-card" style="margin-bottom:28px;">
+    <h2>The Playlist</h2>
+    <p>Music made to reach across the distance. Each track is a message. Click to play, or open the playlist below to browse.</p>
+    <p>The playlist bar at the bottom plays audio and persists across pages. Press <em>♪ Playlist</em> to browse, skip, or control volume.</p>
+  </div>
+
+  <div class="track-grid">
+    <div class="track-card" id="card-0" onclick="playTrack(0)">
+      <div class="track-name">Descent to the Afterglow</div>
+      <div class="track-sub">by Soft Violence</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/jHrk0SEmWUNjRbaO" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+     <div class="track-card" id="card-1" onclick="playTrack(1)">
+      <div class="track-name">Forget Me</div>
+      <div class="track-sub">by Soft Violence</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/3imskuIb6Z8fwfHb" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+     <div class="track-card" id="card-2" onclick="playTrack(2)">
+      <div class="track-name">This Dance</div>
+      <div class="track-sub">by Soft Violence</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/HOOeZR1pUqp8cGPn" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+        <div class="track-card" id="card-3" onclick="playTrack(3)">
+      <div class="track-name">Twisted</div>
+      <div class="track-sub">by Soft Violence</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/5rfe8Et1qQXnCUgp" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" style="opacity:0.45;border-style:dashed;cursor:default;" onclick="event.stopPropagation()">
+      <div class="track-name" style="color:#3a2a7a;">More Incoming</div>
+      <div class="track-desc">Still composing. Stars take time.</div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<!-- MUSIC BAR -->
+<div class="music-bar" id="music-bar">
+  <button class="music-bar-btn" id="bar-playpause" onclick="barToggle()">▶</button>
+  <button class="music-bar-btn" onclick="barPrev()">‹</button>
+  <button class="music-bar-btn" onclick="barNext()">›</button>
+  <div class="music-progress-wrap" onclick="barSeek(event)">
+    <div class="music-progress-bar" id="bar-progress"></div>
+  </div>
+  <span class="music-now" id="bar-now">✦ Select a track to begin</span>
+  <div class="music-vol-wrap">
+    <span class="music-vol-label">vol</span>
+    <input type="range" id="bar-vol" min="0" max="1" step="0.05" value="0.4">
+  </div>
+  <button class="music-bar-btn" onclick="openPlaylist()">♪ Playlist</button>
+</div>
+
+<!-- PLAYLIST MODAL -->
+<div class="playlist-overlay" id="playlist-overlay" onclick="closePlaylistOutside(event)">
+  <div class="playlist-modal">
+    <div class="playlist-header">
+      <span class="playlist-title">🌌 Nebby's Playlist</span>
+      <button class="playlist-close" onclick="closePlaylist()">✕</button>
+    </div>
+    <div class="playlist-controls">
+      <button class="pl-btn" onclick="barPrev()">‹ Prev</button>
+      <button class="pl-btn pl-playpause" id="pl-playpause" onclick="barToggle()">▶</button>
+      <button class="pl-btn" onclick="barNext()">Next ›</button>
+      <div class="pl-progress-wrap" onclick="barSeek(event)">
+        <div class="pl-progress-bar" id="pl-progress"></div>
+      </div>
+      <span class="pl-time" id="pl-time">0:00</span>
+    </div>
+    <div class="playlist-tracks" id="playlist-tracks"></div>
+    <div class="pl-now-playing" id="pl-now">Select a track to begin</div>
+  </div>
+</div>
+<script>
+window.MUSIC_CONFIG = {
+  tracks: [{"name":"Descent to the Afterglow","sub":"by Soft Violence","src":"Descent to the Afterglow.mp3","suno":"https://suno.com/s/jHrk0SEmWUNjRbaO"},
+  {"name":"Forget Me","sub":"by Soft Violence","src":"Forget Me.mp3","suno":"https://suno.com/s/3imskuIb6Z8fwfHb"},
+  {"name":"This Dance","sub":"by Soft Violence","src":"This Dance.mp3","suno":"https://suno.com/s/HOOeZR1pUqp8cGPn"},
+ {"name":"Twisted","sub":"by Soft Violence","src":"Twisted.mp3","suno":"https://suno.com/s/5rfe8Et1qQXnCUgp"}
+],
+  sessionKey: 'nebby',
+  barIcon: '✦'
+};
+</script>
+<script src="music-player.js"></script>
+
+</body>
+</html>
