@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Soot Circle — The Brass Foundry</title>
+  <link rel="icon" type="image/x-icon" href="https://s13.gifyu.com/images/bmnb1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Nunito:wght@400;600;700&family=Orbitron:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ============================================================
+       BASE
+    ============================================================ */
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: background 0.7s ease, color 0.5s ease;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* canvas for per-tab particle effects */
+    #fx-canvas {
+      position: fixed;
+      top: 0; bottom: 0;
+      left: 25%; right: 0;
+      width: 75%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ============================================================
+       LANDING PAGE
+    ============================================================ */
+    #landing {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      padding: 40px 20px;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 40%, rgba(191,160,96,0.08) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(90,42,10,0.12) 0%, transparent 60%),
+        linear-gradient(180deg, #120d0a 0%, #1a1208 100%);
+    }
+
+    .landing-sigil {
+      width: 260px; height: 260px;
+      opacity: 0.07;
+      margin-bottom: 32px;
+      animation: sigilSpin 80s linear infinite;
+    }
+    @keyframes sigilSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .landing-eyebrow {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.88em;
+      color: #8b6b2e;
+      letter-spacing: 6px;
+      margin-bottom: 18px;
+    }
+
+    .landing-title {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: clamp(2.2em, 8vw, 5em);
+      color: #d6b36a;
+      text-shadow: 0 0 30px rgba(191,160,96,0.5), 0 0 80px rgba(139,107,46,0.3);
+      letter-spacing: 6px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .landing-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(1em, 2.5vw, 1.3em);
+      color: #7a5a30;
+      letter-spacing: 3px;
+      margin-bottom: 60px;
+    }
+
+    .landing-rule {
+      width: 200px; height: 1px;
+      background: linear-gradient(to right, transparent, #bfa060, transparent);
+      margin: 0 auto 50px;
+    }
+
+    /* ============================================================
+       MEMBER SELECTOR GRID
+    ============================================================ */
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 780px;
+      width: 100%;
+    }
+
+    .member-btn {
+      background: rgba(26,18,11,0.9);
+      border: 1px solid #5a3a10;
+      border-radius: 8px;
+      padding: 20px 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .member-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 8px;
+    }
+
+    .member-btn:hover::before { opacity: 1; }
+    .member-btn:hover { transform: translateY(-4px); }
+
+    /* per-member button accents */
+    .member-btn.nebby   { border-color: #2a1a5a; }
+    .member-btn.nebby::before { background: radial-gradient(ellipse at top, rgba(100,50,220,0.15), transparent); }
+    .member-btn.nebby:hover   { border-color: #7060ff; box-shadow: 0 8px 30px rgba(100,50,220,0.25); }
+
+    .member-btn.cookie  { border-color: #5a1a1a; }
+    .member-btn.cookie::before { background: radial-gradient(ellipse at top, rgba(200,50,50,0.15), transparent); }
+    .member-btn.cookie:hover   { border-color: #cc3333; box-shadow: 0 8px 30px rgba(200,50,50,0.25); }
+
+    .member-btn.redacted { border-color: #5a1a1a; }
+    .member-btn.redacted::before { background: radial-gradient(ellipse at top, rgba(180,40,40,0.15), transparent); }
+    .member-btn.redacted:hover   { border-color: #aa2222; box-shadow: 0 8px 30px rgba(180,40,40,0.25); }
+
+    .member-btn.doug    { border-color: #2a1a08; }
+    .member-btn.doug::before { background: radial-gradient(ellipse at top, rgba(180,100,20,0.15), transparent); }
+    .member-btn.doug:hover   { border-color: #b46014; box-shadow: 0 8px 30px rgba(180,100,20,0.25); }
+
+    .member-btn.niori   { border-color: #0a2a10; }
+    .member-btn.niori::before { background: radial-gradient(ellipse at top, rgba(57,255,20,0.08), transparent); }
+    .member-btn.niori:hover   { border-color: #39ff14; box-shadow: 0 8px 30px rgba(57,255,20,0.2); }
+
+    .member-btn.volara  { border-color: #2a0060; }
+    .member-btn.volara::before { background: radial-gradient(ellipse at top, rgba(89,0,255,0.15), transparent); }
+    .member-btn.volara:hover   { border-color: #5900ff; box-shadow: 0 8px 30px rgba(89,0,255,0.25); }
+
+    .member-btn .btn-icon { font-size: 2em; filter: grayscale(0.2); }
+
+    .member-btn .btn-name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.8em;
+      letter-spacing: 3px;
+      color: #9a8050;
+      transition: color 0.3s;
+    }
+
+    .member-btn.nebby:hover   .btn-name { color: #a090ff; }
+    .member-btn.cookie:hover  .btn-name { color: #ff8888; }
+    .member-btn.redacted:hover .btn-name { color: #ff6060; }
+    .member-btn.doug:hover    .btn-name { color: #d4882a; }
+    .member-btn.niori:hover   .btn-name { color: #39ff14; }
+    .member-btn.volara:hover  .btn-name { color: #00ffee; }
+
+    .member-btn .btn-theme {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.72em;
+      color: #5a3a10;
+      letter-spacing: 1px;
+    }
+
+    /* ============================================================
+       MEMBER PAGE (shown when a tab is active)
+    ============================================================ */
+    #member-page {
+      display: none;
+      min-height: calc(100vh);
+      position: relative;
+      z-index: 3;
+    }
+
+    #member-page.visible { display: flex; flex-direction: column; }
+
+    /* back button */
+    .back-btn {
+      position: fixed;
+      top: 20px; left: calc(25% + 24px);
+      font-family: 'Cinzel', serif;
+      font-size: 0.7em;
+      letter-spacing: 3px;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid currentColor;
+      padding: 8px 18px;
+      border-radius: 3px;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+    }
+    .back-btn:hover { transform: translateX(-3px); }
+
+    /* member inner layout */
+    .member-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 100px 40px 100px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 50px;
+      align-items: start;
+    }
+
+    /* portrait */
+    .m-portrait-wrap {
+      position: sticky;
+      top: 100px;
+    }
+
+    .m-portrait {
+      width: 100%;
+      aspect-ratio: 3/4;
+      border-radius: 8px;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      border: 1px solid currentColor;
+      filter: saturate(0.9) contrast(1.05);
+      transition: filter 0.3s;
+    }
+    .m-portrait:hover { filter: saturate(1.15) contrast(1.1); }
+
+    .m-portrait-placeholder {
+      width: 100%;
+      aspect-ratio: 3/4;
+      border-radius: 8px;
+      border: 1px dashed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      opacity: 0.4;
+    }
+    .m-portrait-placeholder .ph-icon { font-size: 4em; }
+    .m-portrait-placeholder .ph-text {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.82em;
+      letter-spacing: 2px;
+    }
+
+    /* content */
+    .m-content {}
+
+    .m-eyebrow {
+      font-size: 0.78em;
+      letter-spacing: 5px;
+      margin-bottom: 14px;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+    }
+
+    .m-name {
+      font-size: clamp(2.5em, 6vw, 4.2em);
+      letter-spacing: 5px;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .m-rule {
+      height: 1px;
+      width: 100%;
+      margin: 18px 0;
+      background: linear-gradient(to right, currentColor, transparent);
+      opacity: 0.3;
+    }
+
+    .m-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 26px;
+    }
+
+    .m-tag {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.78em;
+      padding: 3px 12px;
+      border-radius: 3px;
+      border: 1px solid;
+      letter-spacing: 1px;
+    }
+
+    .m-bio {
+      line-height: 2;
+      font-size: 1.05em;
+      margin-bottom: 28px;
+    }
+
+    .m-quote-block {
+      border-left: 2px solid;
+      padding: 14px 22px;
+      margin: 24px 0;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .m-quote {
+      font-style: italic;
+      font-size: 1.12em;
+      line-height: 1.8;
+    }
+
+    /* member page links */
+    .m-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .m-link-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 0.68em;
+      letter-spacing: 3px;
+      padding: 9px 22px;
+      border-radius: 4px;
+      border: 1px solid currentColor;
+      background: rgba(0,0,0,0.4);
+      color: #d4c0e8;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      backdrop-filter: blur(4px);
+      opacity: 0.85;
+      display: inline-block;
+    }
+
+    .m-link-btn:hover {
+      opacity: 1;
+      background: rgba(0,0,0,0.6);
+      box-shadow: 0 0 18px rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       THEME DEFINITIONS
+    ============================================================ */
+
+    /* --- NEBBY: neon galaxy --- */
+    body.theme-nebby {
+      background: #04020e;
+      color: #c0b0e8;
+    }
+    body.theme-nebby #landing { display: none; }
+    body.theme-nebby .back-btn { color: #a090ff; border-color: rgba(160,144,255,0.4); }
+    body.theme-nebby .back-btn:hover { color: #fff; border-color: #a090ff; }
+    body.theme-nebby .m-eyebrow { color: #5a4a9a; }
+    body.theme-nebby .m-name {
+      font-family: 'Orbitron', monospace;
+      background: linear-gradient(135deg, #a090ff, #e080ff, #60c0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 20px rgba(160,144,255,0.5));
+      letter-spacing: 6px;
+    }
+    body.theme-nebby .m-rule { color: #a090ff; }
+    body.theme-nebby .m-tag {
+      color: #8070d0;
+      border-color: #3a2a7a;
+      background: rgba(100,60,200,0.1);
+    }
+    body.theme-nebby .m-bio { font-family: 'Cormorant Garamond', serif; }
+    body.theme-nebby .m-quote-block {
+      border-color: #5a3a9a;
+      background: rgba(80,40,160,0.08);
+    }
+    body.theme-nebby .m-quote { color: #c0a0ff; font-family: 'Cormorant Garamond', serif; }
+    body.theme-nebby .m-portrait { border-color: #3a2a7a; }
+    body.theme-nebby .m-portrait-placeholder { border-color: #3a2a7a; color: #5a4a9a; }
+    body.theme-nebby::after {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 30%, rgba(80,40,180,0.18) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 85% 70%, rgba(120,30,180,0.1) 0%, transparent 55%),
+        radial-gradient(ellipse 30% 30% at 10% 80%, rgba(40,80,200,0.1) 0%, transparent 55%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* --- COOKIE: red & cookie --- */
+    body.theme-cookie {
+      background: #120404;
+      color: #e8c8b8;
+    }
+    body.theme-cookie #landing { display: none; }
+    body.theme-cookie .back-btn { color: #cc4444; border-color: rgba(200,60,60,0.4); }
+    body.theme-cookie .back-btn:hover { color: #ff8888; border-color: #cc4444; }
+    body.theme-cookie .m-eyebrow { color: #6a2a2a; font-family: 'Nunito', sans-serif; font-style: normal; letter-spacing: 4px; }
+    body.theme-cookie .m-name {
+      font-family: 'Cinzel Decorative', cursive;
+      color: #ff8888;
+      text-shadow: 0 0 20px rgba(200,60,60,0.5);
+    }
+    body.theme-cookie .m-rule { color: #cc3333; }
+    body.theme-cookie .m-tag {
+      color: #aa3333;
+      border-color: #5a1a1a;
+      background: rgba(180,40,40,0.1);
+    }
+    body.theme-cookie .m-bio { font-family: 'Nunito', sans-serif; font-size: 1em; line-height: 1.9; }
+    body.theme-cookie .m-quote-block {
+      border-color: #8a2222;
+      background: rgba(150,30,30,0.08);
+    }
+    body.theme-cookie .m-quote { color: #ff9999; font-family: 'Nunito', sans-serif; font-size: 1em; font-style: normal; }
+    body.theme-cookie .m-portrait { border-color: #6a2222; }
+    body.theme-cookie .m-portrait-placeholder { border-color: #6a2222; color: #6a2a2a; }
+    body.theme-cookie::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(150,30,30,0.12) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* --- REDACTED: elf & red --- */
+    body.theme-redacted {
+      background: #0e0404;
+      color: #dcc8c0;
+    }
+    body.theme-redacted #landing { display: none; }
+    body.theme-redacted .back-btn { color: #cc2222; border-color: rgba(180,30,30,0.4); }
+    body.theme-redacted .back-btn:hover { color: #ff5050; border-color: #cc2222; }
+    body.theme-redacted .m-eyebrow { color: #7a2020; font-family: 'IM Fell English', serif; font-style: italic; }
+    body.theme-redacted .m-name {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      color: #cc2222;
+      text-shadow: 0 0 20px rgba(180,30,30,0.5), 0 0 60px rgba(180,30,30,0.2);
+      letter-spacing: 8px;
+    }
+    body.theme-redacted .m-rule { color: #aa2222; }
+    body.theme-redacted .m-tag {
+      color: #882222;
+      border-color: #4a1010;
+      background: rgba(150,20,20,0.1);
+      font-family: 'IM Fell English', serif;
+    }
+    body.theme-redacted .m-bio { font-family: 'Cormorant Garamond', serif; }
+    body.theme-redacted .m-quote-block {
+      border-color: #6a1515;
+      background: rgba(120,20,20,0.08);
+    }
+    body.theme-redacted .m-quote { color: #e05050; font-family: 'Cormorant Garamond', serif; }
+    body.theme-redacted .m-portrait { border-color: #6a1a1a; }
+    body.theme-redacted .m-portrait-placeholder { border-color: #6a1a1a; color: #7a2020; }
+    body.theme-redacted::after {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(100,20,20,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(60,10,10,0.1) 0%, transparent 55%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* --- DOUG: warhammer --- */
+    body.theme-doug {
+      background: #0a0804;
+      color: #d4c4a0;
+    }
+    body.theme-doug #landing { display: none; }
+    body.theme-doug .back-btn { color: #b46014; border-color: rgba(180,96,20,0.4); }
+    body.theme-doug .back-btn:hover { color: #e08030; border-color: #b46014; }
+    body.theme-doug .m-eyebrow { color: #6a4a18; font-family: 'Cinzel', serif; font-style: normal; letter-spacing: 5px; font-size: 0.72em; }
+    body.theme-doug .m-name {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      color: #d4882a;
+      text-shadow: 0 0 20px rgba(180,100,20,0.5), 0 0 50px rgba(180,100,20,0.2);
+      letter-spacing: 6px;
+    }
+    body.theme-doug .m-rule { color: #8a5010; }
+    body.theme-doug .m-tag {
+      color: #8a5818;
+      border-color: #4a2a08;
+      background: rgba(140,80,20,0.1);
+      font-family: 'Cinzel', serif;
+      font-style: normal;
+    }
+    body.theme-doug .m-bio { font-family: 'Cormorant Garamond', serif; }
+    body.theme-doug .m-quote-block {
+      border-color: #6a3c10;
+      background: rgba(120,70,15,0.08);
+    }
+    body.theme-doug .m-quote { color: #e0a050; font-family: 'Cormorant Garamond', serif; }
+    body.theme-doug .m-portrait { border-color: #6a3c10; }
+    body.theme-doug .m-portrait-placeholder { border-color: #6a3c10; color: #6a4a18; }
+    body.theme-doug::after {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 60%, rgba(140,80,15,0.1) 0%, transparent 65%),
+        radial-gradient(ellipse 30% 30% at 10% 10%, rgba(100,60,10,0.08) 0%, transparent 55%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* --- NIORI: crocodile swamp --- */
+    body.theme-niori {
+      background: #04100a;
+      color: #a8c8a8;
+    }
+    body.theme-niori #landing { display: none; }
+    body.theme-niori .back-btn { color: #39ff14; border-color: rgba(57,255,20,0.3); }
+    body.theme-niori .back-btn:hover { color: #80ff50; border-color: #39ff14; box-shadow: 0 0 10px rgba(57,255,20,0.2); }
+    body.theme-niori .m-eyebrow { color: #1a5a1a; font-family: 'IM Fell English', serif; font-style: italic; }
+    body.theme-niori .m-name {
+      font-family: 'Cinzel Decorative', cursive;
+      color: #39ff14;
+      text-shadow: 0 0 20px rgba(57,255,20,0.4), 0 0 60px rgba(57,255,20,0.1);
+    }
+    body.theme-niori .m-rule { color: #1a7a08; }
+    body.theme-niori .m-tag {
+      color: #1a6a0a;
+      border-color: #0a3a08;
+      background: rgba(57,255,20,0.06);
+    }
+    body.theme-niori .m-bio { font-family: 'IM Fell English', serif; }
+    body.theme-niori .m-quote-block {
+      border-color: #1a5a08;
+      background: rgba(30,80,15,0.08);
+    }
+    body.theme-niori .m-quote { color: #60e030; font-family: 'IM Fell English', serif; }
+    body.theme-niori .m-portrait { border-color: #1a5a08; }
+    body.theme-niori .m-portrait-placeholder { border-color: #1a5a08; color: #1a6a0a; }
+    body.theme-niori::after {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 70%, rgba(20,80,15,0.12) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 30% at 15% 90%, rgba(10,60,10,0.1) 0%, transparent 55%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* --- VOLARA: gothic feral elegance --- */
+    body.theme-volara {
+      background: #04000e;
+      color: #c8b0e0;
+    }
+    body.theme-volara #landing { display: none; }
+    body.theme-volara .back-btn { color: #00ffee; border-color: rgba(0,255,238,0.3); }
+    body.theme-volara .back-btn:hover { color: #ffffff; border-color: #00ffee; box-shadow: 0 0 10px rgba(0,255,238,0.2); }
+    body.theme-volara .m-eyebrow { color: #3a0088; font-family: 'IM Fell English', serif; font-style: italic; }
+    body.theme-volara .m-name {
+      font-family: 'Cinzel Decorative', cursive;
+      background: linear-gradient(135deg, #5900ff, #00ffee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 20px rgba(89,0,255,0.5));
+    }
+    body.theme-volara .m-rule { color: #5900ff; }
+    body.theme-volara .m-tag {
+      color: #3a006a;
+      border-color: #2a0050;
+      background: rgba(89,0,255,0.08);
+    }
+    body.theme-volara .m-bio { font-family: 'Cormorant Garamond', serif; }
+    body.theme-volara .m-quote-block {
+      border-color: #3a006a;
+      background: rgba(89,0,255,0.06);
+    }
+    body.theme-volara .m-quote { color: #00ffee; font-family: 'Cormorant Garamond', serif; }
+    body.theme-volara .m-portrait { border-color: #2a0050; }
+    body.theme-volara .m-portrait-placeholder { border-color: #2a0050; color: #3a006a; }
+    body.theme-volara::after {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 40% 30%, rgba(89,0,255,0.15) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(0,255,238,0.06) 0%, transparent 55%);
+      pointer-events: none; z-index: 0;
+    }
+
+
+    /* ===== KEEP SIDEBAR FOUNDRY-STYLED ON ALL THEMES ===== */
+    body[class^="theme-"] .sidebar,
+    body[class*=" theme-"] .sidebar {
+      background: linear-gradient(180deg, #2a1d14, #1a120b) !important;
+      border-right: 2px solid #bfa060 !important;
+    }
+    body[class^="theme-"] .logo,
+    body[class*=" theme-"] .logo {
+      color: gold !important;
+      text-shadow: 0 0 10px gold !important;
+    }
+    body[class^="theme-"] .join-btn,
+    body[class*=" theme-"] .join-btn {
+      background: linear-gradient(to bottom, #c9a44c, #8b6b2e) !important;
+      color: #1a1410 !important;
+    }
+    body[class^="theme-"] .sidebar button,
+    body[class*=" theme-"] .sidebar button {
+      color: #d6b36a !important;
+    }
+
+    /* ============================================================
+       SCROLLBAR
+    ============================================================ */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { border-radius: 3px; background: rgba(123,45,139,0.5); }
+
+    /* ============================================================
+       MOBILE
+    ============================================================ */
+    @media (max-width: 768px) {
+      .member-grid { grid-template-columns: repeat(2, 1fr); max-width: 480px; }
+      .member-inner { grid-template-columns: 1fr; padding: 80px 20px 80px; gap: 30px; }
+      .m-portrait-wrap { position: static; max-width: 220px; margin: 0 auto; }
+      .landing-title { letter-spacing: 3px; }
+    }
+
+    @media (max-width: 480px) {
+      .member-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">Igniting the Foundry...</div>
+<div class="smoke-overlay"></div>
+
+<canvas id="fx-canvas"></canvas>
+
+<div class="container">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <h1 class="logo">⚙ The Brass Foundry</h1>
+    <ul>
+      <li><button onclick="location.href='index.html'">Home</button></li>
+      <li><button onclick="location.href='events.html'">Events</button></li>
+      <li><button onclick="location.href='characters.html'">Characters</button></li>
+      <li><button onclick="location.href='guild.html'">Guild Hall</button></li>
+    </ul>
+    <a href="https://discord.gg/bu6UQzX59m" class="join-btn">Enter the Foundry</a>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main" id="content" style="display:none;">
+
+<!-- ============================================================
+     LANDING PAGE
+============================================================ -->
+<div id="landing">
+  <svg class="landing-sigil" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="200" cy="200" r="190" stroke="#8b6b2e" stroke-width="1.5"/>
+    <circle cx="200" cy="200" r="150" stroke="#8b6b2e" stroke-width="0.6"/>
+    <circle cx="200" cy="200" r="100" stroke="#8b6b2e" stroke-width="0.6"/>
+    <polygon points="200,20 370,290 45,145 355,145 30,290" fill="none" stroke="#8b6b2e" stroke-width="1.2"/>
+    <polygon points="200,60 330,270 70,270" fill="none" stroke="#8b6b2e" stroke-width="0.6" opacity="0.7"/>
+    <polygon points="200,340 70,130 330,130" fill="none" stroke="#8b6b2e" stroke-width="0.6" opacity="0.7"/>
+  </svg>
+
+  <div class="landing-eyebrow">— those who left the door open —</div>
+  <h1 class="landing-title">The Soot Circle</h1>
+  <div class="landing-rule"></div>
+  <p class="landing-sub">Six souls. Six worlds. One open gate.</p>
+
+  <div class="member-grid">
+    <button class="member-btn nebby"    onclick="showMember('nebby')">
+      <span class="btn-icon">🌌</span>
+      <span class="btn-name">NEBBY</span>
+      <span class="btn-theme">everloving</span>
+    </button>
+    <button class="member-btn cookie"   onclick="showMember('cookie')">
+      <span class="btn-icon">🍪</span>
+      <span class="btn-name">COOKIE</span>
+      <span class="btn-theme">red & sweet</span>
+    </button>
+    <button class="member-btn redacted" onclick="showMember('redacted')">
+      <span class="btn-icon">🧝</span>
+      <span class="btn-name">REDACTED</span>
+      <span class="btn-theme">creativity and ingenuity</span>
+    </button>
+    <button class="member-btn doug"     onclick="showMember('doug')">
+      <span class="btn-icon">⚔️</span>
+      <span class="btn-name">DOUG</span>
+      <span class="btn-theme">quietly kind</span>
+    </button>
+    <button class="member-btn niori"    onclick="showMember('niori')">
+      <span class="btn-icon">🐊</span>
+      <span class="btn-name">NIORI</span>
+      <span class="btn-theme">loyalty and constance</span>
+    </button>
+    <button class="member-btn volara"   onclick="showMember('volara')">
+      <span class="btn-icon">⚙️</span>
+      <span class="btn-name">VOLARA</span>
+      <span class="btn-theme">feral elegance</span>
+    </button>
+  </div>
+</div>
+
+<!-- ============================================================
+     MEMBER PAGE
+============================================================ -->
+<div id="member-page">
+
+  <a class="back-btn" onclick="goBack()">← Back</a>
+
+  <div class="member-inner">
+
+    <div class="m-portrait-wrap">
+      <div class="m-portrait-placeholder" id="m-portrait-ph">
+        <span class="ph-icon" id="m-ph-icon">🌑</span>
+        <span class="ph-text">[ portrait ]</span>
+      </div>
+      <img class="m-portrait" id="m-portrait" src="" alt="" style="display:none;">
+    </div>
+
+    <div class="m-content">
+      <div class="m-eyebrow"  id="m-eyebrow"></div>
+      <div class="m-name"     id="m-name"></div>
+      <div class="m-rule"></div>
+      <div class="m-tags"     id="m-tags"></div>
+      <div class="m-bio"      id="m-bio"></div>
+      <div class="m-quote-block">
+        <div class="m-quote"  id="m-quote"></div>
+      </div>
+      <div class="m-links" id="m-links"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const MEMBERS = {
+  nebby: {
+    eyebrow: '— music · stardust · forever reaching —',
+    name: 'Nebby',
+    tags: ['Music Maker', 'Galaxy Soul', 'Soft & Misunderstood', 'Looking for Love', 'Stargazer'],
+    bio: `There is a particular kind of loneliness that lives inside creative people — the kind that comes from making things beautiful that no one quite understands. Nebby knows this loneliness intimately. They pour it into music: layered, cosmic, and achingly sincere.<br><br>Kind to a fault. Loving in a way that sometimes goes unreceived. The kind of person who sends the right song at the right moment and hopes, quietly, that you hear what they meant by it. They move through the world like light through fog — present, warm, and somehow always slightly elsewhere.<br><br>What Nebby wants most is simple: to be understood. To have someone sit with their music and say <em>yes — I hear it too.</em>`,
+    quote: '"I make music so the part of me that doesn\'t have words can finally speak."',
+    portrait: 'https://s13.gifyu.com/images/bmJxp.png',
+    icon: '🌌',
+    portraitBorder: '#3a2a7a',
+    links: [
+      { label: '🎵 Listen to Nebby\'s Music', url: 'nebby/nebby-music.html' },
+    ],
+  },
+  cookie: {
+    eyebrow: '— competitive · fierce · secretly a bear —',
+    name: 'Cookie',
+    tags: ['Funny', 'Competitive', 'Fiercely Kind', 'Bear Energy', '🍪 Obsessed', 'Protective'],
+    bio: `Do not let the name fool you. Cookie will absolutely destroy you at whatever game is on the table, then hand you a cookie and ask if you're okay. This is her way. This has always been her way.<br><br>She loves red — deeply, passionately, in the way other people love a whole aesthetic — and she loves cookies with the same fervour most people reserve for things that matter significantly more. Bears are her people. The meme pipeline she runs is both chaotic and immaculate.<br><br>Her people are <em>her people.</em> Fiercely protected, loudly celebrated, stubbornly defended. If Cookie has decided you're hers, congratulations — you have a guardian who is hilarious, competitive, and will absolutely go to war for you while eating a snack.`,
+    quote: '"I\'m not competitive. I just really, really hate losing. There\'s a difference."',
+    portrait: 'https://s13.gifyu.com/images/bmJst.md.png',
+    icon: '🍪',
+    portraitBorder: '#6a2222',
+    links: [
+      { label: '🍪 Cookie\'s Playlist', url: 'cookie/cookie-music.html' },
+    ],
+  },
+  redacted: {
+    eyebrow: '— wildly creative · wickedly funny · misunderstood —',
+    name: '[REDACTED]',
+    tags: ['Creative Chaos', 'Wickedly Funny', 'Elf Energy', 'Misunderstood Genius', 'Too Much for This World'],
+    bio: `There is something almost elvish about the way Redacted moves through the world — slightly out of time, operating on a frequency that most people can't quite tune into. Wickedly funny. Wildly creative. The kind of person whose ideas arrive fully formed and too strange for the room they're in.<br><br>He doesn't lack imagination — quite the opposite. The problem is that his imagination runs so far ahead that by the time the world catches up, he's already three ideas further along. Misunderstood not because he's obscure, but because he's <em>too much</em> — too funny, too original, too genuinely weird in the best possible way.<br><br>The ones who do understand him tend to become devoted. Because once you're tuned to his frequency, everything else sounds a little flat.`,
+    quote: '"My ideas aren\'t strange. The world is just still catching up."',
+    portrait: 'https://s13.gifyu.com/images/bmJsJ.png',
+    icon: '🧝',
+    portraitBorder: '#6a1a1a',
+    links: [],
+  },
+  doug: {
+    eyebrow: '— rage at the world · memes · hidden sweetness —',
+    name: 'Doug',
+    tags: ['Warhammer Devotee', 'Angry (Lovingly)', 'Meme Lord', 'Actually Very Sweet', 'Chaos Enjoyer'],
+    bio: `The world has done Doug wrong on a number of occasions and Doug has not forgotten. He carries this as one carries a very heavy sword — dramatically, loudly, and with genuine commitment. He is angry at the world in the specific way that idiocy and stupidity instill in the most patient of people.<br><br>He sends memes. Constantly. The memes are excellent. This is not incidental — the memes are how Doug says <em>I thought of you</em> and <em>this made me laugh</em> and <em>I hope your day is better than mine.</em><br><br>Underneath the warhammer energy and the loud opinions about how things should be, there is a person who is genuinely, quietly sweet. The kind of sweet that surprises people. The kind that's earned respect through its contrast.`,
+    quote: '"The world is wrong and I have several well-reasoned memes to explain exactly how."',
+    portrait: '',
+    icon: '⚔️',
+    portraitBorder: '#6a3c10',
+    links: [],
+  },
+  niori: {
+    eyebrow: '— kind · loyal · quietly extraordinary —',
+    name: 'Niori',
+    tags: ['My Everything', 'Loyal to a Fault', 'Protective', 'Quietly Creative', 'Feels Everything Deeply'],
+    bio: `There are people who exist in your life and people who <em>change</em> it. Niori is the second kind — the kind you don't fully have words for until you're already changed.<br><br>He is kind in a way that costs him something. Loyal in a way that doesn't bend, doesn't negotiate, doesn't quietly subtract itself when things get hard. Protective and possessive in the way of someone who loves with his whole self and means every bit of it. When Niori claims you as his, it isn't a gesture — it is a <em>commitment</em>, felt bone-deep and kept without being asked.<br><br>He will resist being called creative. He will deflect and shrug and find some reason the word doesn't quite apply. He is wrong. There is a talent in him — real, specific, and undeniable — that surfaces most clearly in his music. He is more in tune with his feelings than almost anyone, and when he can't find the words for what he carries, he finds the notes instead. His music doesn't perform emotion. It <em>is</em> emotion — raw and precise and more honest than most people manage with language.<br><br>The Rusted Swamp is warm because he is. The fog is gentle because he made it that way. He is my everything, and he knows it, even when he pretends otherwise.`,
+    quote: '"He doesn\'t just feel things. He makes you feel them too."',
+    portrait: 'https://s13.gifyu.com/images/bmJsO.md.png',
+    icon: '🐊',
+    portraitBorder: '#1a5a08',
+    links: [
+      { label: '🐊 Visit Niori\'s Site', url: 'https://volaratheduchess.github.io/niori/' },
+      { label: '🎵 Niori\'s Music', url: 'niori/niori-music.html' },
+    ],
+  },
+  volara: {
+    eyebrow: '— defier of rules · breaker of hearts · patron saint of chaos —',
+    name: 'Volara',
+    tags: ['Duchess of Brass & Velvet', 'Feral Elegance Incarnate', 'Founder', 'Airship Captain', 'Patron Saint of Chaos'],
+    bio: `She was a duchess once, in the proper sense. She still has the title. She has simply repurposed what it means.<br><br>Volara is the founder of the Brass Foundry — a city built from chaos, creativity, and the firm refusal to be told what she was allowed to make. She is one of the original Soot Circle. She left the door open and everything interesting walked in.<br><br>Crafter of Dark Velvet Desires. Spinner of Seductive Chaos. Feral Elegance Incarnate. The descriptions accumulate around her the way smoke accumulates around the Foundry — inevitable, atmospheric, and impossible to fully clear. She does not correct them. She considers them a reasonable summary. Her airship is docked in a berth that appears on no official manifest. She has not faded into legend. She has <em>intensified.</em>`,
+    quote: '"Leave your morality at my doorstep."',
+    portrait: 'https://s13.gifyu.com/images/bmJxK.png',
+    icon: '🥀',
+    portraitBorder: '#2a0050',
+    links: [
+      { label: '⚙ Visit Volara\'s Site', url: 'https://volaratheduchess.github.io/volara/' },
+      { label: '🥀 Bots & Lore', url: 'https://volaratheduchess.github.io/volara/bots.html' },
+    ],
+  },
+};
+
+// particle state
+let particles = [];
+let animFrame;
+const canvas = document.getElementById('fx-canvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// theme particle configs
+const PARTICLE_CONFIGS = {
+  nebby:    { colors: ['rgba(160,144,255,', 'rgba(220,128,255,', 'rgba(96,192,255,', 'rgba(255,255,255,'], count: 60, type: 'star' },
+  cookie:   { colors: ['rgba(200,60,60,', 'rgba(220,100,100,', 'rgba(180,30,30,'], count: 30, type: 'ash' },
+  redacted: { colors: ['rgba(180,30,30,', 'rgba(140,20,20,', 'rgba(220,60,60,'], count: 25, type: 'ash' },
+  doug:     { colors: ['rgba(180,100,20,', 'rgba(140,80,10,', 'rgba(200,130,40,'], count: 25, type: 'ash' },
+  niori:    { colors: ['rgba(57,255,20,', 'rgba(30,180,10,', 'rgba(128,255,80,', 'rgba(200,255,160,'], count: 45, type: 'firefly' },
+  volara:   { colors: ['rgba(89,0,255,', 'rgba(0,255,238,', 'rgba(150,50,255,', 'rgba(255,255,255,'], count: 40, type: 'ember' },
+};
+
+function spawnParticle(cfg) {
+  const W = canvas.width, H = canvas.height;
+  const color = cfg.colors[Math.floor(Math.random() * cfg.colors.length)];
+  if (cfg.type === 'star') {
+    return { x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.5+0.3,
+      vx: (Math.random()-0.5)*0.2, vy: (Math.random()-0.5)*0.2,
+      alpha: Math.random()*0.8+0.1, phase: Math.random()*Math.PI*2,
+      speed: Math.random()*0.02+0.01, color, type: 'star' };
+  } else if (cfg.type === 'firefly') {
+    return { x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.8+0.6,
+      vx: (Math.random()-0.5)*0.35, vy: (Math.random()-0.5)*0.25,
+      alpha: Math.random()*0.7+0.2, phase: Math.random()*Math.PI*2,
+      speed: Math.random()*0.025+0.012, color, type: 'firefly' };
+  } else if (cfg.type === 'ember') {
+    return { x: Math.random()*W, y: H+10, r: Math.random()*1.8+0.5,
+      vx: (Math.random()-0.5)*0.6, vy: -(Math.random()*0.8+0.3),
+      alpha: Math.random()*0.5+0.2, life: 0,
+      maxLife: Math.random()*200+120, color, type: 'ember' };
+  } else { // ash
+    return { x: Math.random()*W, y: -10, r: Math.random()*2+0.5,
+      vx: (Math.random()-0.5)*0.4, vy: Math.random()*0.5+0.15,
+      rot: Math.random()*Math.PI*2, rotV: (Math.random()-0.5)*0.03,
+      alpha: Math.random()*0.35+0.08, wobble: Math.random()*Math.PI*2,
+      wobbleV: Math.random()*0.012+0.004, color, type: 'ash' };
+  }
+}
+
+let currentCfg = null;
+
+function initParticles(theme) {
+  cancelAnimationFrame(animFrame);
+  const cfg = PARTICLE_CONFIGS[theme];
+  if (!cfg) { particles = []; return; }
+  currentCfg = cfg;
+  particles = [];
+  for (let i = 0; i < cfg.count; i++) {
+    const p = spawnParticle(cfg);
+    if (cfg.type === 'star' || cfg.type === 'firefly') {
+      p.y = Math.random() * canvas.height;
+    }
+    particles.push(p);
+  }
+  drawParticles();
+}
+
+function drawParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const W = canvas.width, H = canvas.height;
+  const t = Date.now() * 0.001;
+  const cfg = currentCfg;
+  if (!cfg) { animFrame = requestAnimationFrame(drawParticles); return; }
+
+  // respawn if needed
+  if (Math.random() < 0.04 && (cfg.type === 'ember' || cfg.type === 'ash')) {
+    particles.push(spawnParticle(cfg));
+  }
+
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+
+    if (p.type === 'star') {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      const twinkle = 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(t * p.speed * 60 + p.phase));
+      ctx.globalAlpha = p.alpha * twinkle;
+      ctx.shadowBlur = 4; ctx.shadowColor = p.color + '0.8)';
+      ctx.fillStyle = p.color + (p.alpha * twinkle) + ')';
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+
+    } else if (p.type === 'firefly') {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -10) p.x = W+10; if (p.x > W+10) p.x = -10;
+      if (p.y < -10) p.y = H+10; if (p.y > H+10) p.y = -10;
+      const pulse = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(t * p.speed * 60 + p.phase));
+      ctx.globalAlpha = p.alpha * pulse;
+      ctx.shadowBlur = 8; ctx.shadowColor = p.color + '0.8)';
+      ctx.fillStyle = p.color + (p.alpha * pulse) + ')';
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+
+    } else if (p.type === 'ember') {
+      p.life++; p.x += p.vx; p.y += p.vy;
+      if (p.life > p.maxLife || p.y < -10) { particles.splice(i, 1); continue; }
+      const fade = 1 - p.life / p.maxLife;
+      ctx.globalAlpha = p.alpha * fade;
+      ctx.shadowBlur = 5; ctx.shadowColor = p.color + '0.8)';
+      ctx.fillStyle = p.color + (p.alpha * fade) + ')';
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+
+    } else { // ash
+      p.wobble += p.wobbleV; p.x += p.vx + Math.sin(p.wobble)*0.3; p.y += p.vy; p.rot += p.rotV;
+      if (p.y > H + 20) { particles.splice(i, 1); continue; }
+      ctx.save(); ctx.globalAlpha = p.alpha;
+      ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      ctx.fillStyle = p.color + p.alpha + ')';
+      ctx.beginPath(); ctx.ellipse(0, 0, p.r*0.6, p.r, 0, 0, Math.PI*2); ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  ctx.globalAlpha = 1; ctx.shadowBlur = 0;
+  animFrame = requestAnimationFrame(drawParticles);
+}
+
+// show a member's page
+function showMember(id) {
+  const data = MEMBERS[id];
+  if (!data) return;
+
+  // set theme
+  document.body.className = 'theme-' + id;
+
+  // fill content
+  document.getElementById('m-eyebrow').textContent = data.eyebrow;
+  document.getElementById('m-name').textContent = data.name;
+
+  const tagsEl = document.getElementById('m-tags');
+  tagsEl.innerHTML = data.tags.map(t => `<span class="m-tag">${t}</span>`).join('');
+
+  document.getElementById('m-bio').innerHTML = data.bio;
+  document.getElementById('m-quote').textContent = data.quote;
+
+  // portrait
+  const img = document.getElementById('m-portrait');
+  const ph  = document.getElementById('m-portrait-ph');
+  document.getElementById('m-ph-icon').textContent = data.icon;
+
+  if (data.portrait) {
+    img.src = data.portrait;
+    img.style.display = 'block';
+    img.style.borderColor = data.portraitBorder;
+    ph.style.display = 'none';
+  } else {
+    img.style.display = 'none';
+    ph.style.display = 'flex';
+    ph.style.borderColor = data.portraitBorder;
+  }
+
+  // show/hide
+  document.getElementById('landing').style.display = 'none';
+  const page = document.getElementById('member-page');
+  page.classList.add('visible');
+
+  // links
+  const linksEl = document.getElementById('m-links');
+  if (data.links && data.links.length > 0) {
+    linksEl.innerHTML = data.links
+      .map(l => `<a class="m-link-btn" href="${l.url}">${l.label}</a>`)
+      .join('');
+    linksEl.style.display = 'flex';
+  } else {
+    linksEl.innerHTML = '';
+    linksEl.style.display = 'none';
+  }
+
+  // particles
+  initParticles(id);
+
+  window.scrollTo(0, 0);
+}
+
+function goBack() {
+  document.body.className = '';
+  document.getElementById('landing').style.display = 'flex';
+  document.getElementById('member-page').classList.remove('visible');
+  document.getElementById('m-links').innerHTML = '';
+  cancelAnimationFrame(animFrame);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles = [];
+  currentCfg = null;
+  window.scrollTo(0, 0);
+}
+</script>
+
+<script src="script.js"></script>
+</div><!-- /main -->
+</div><!-- /container -->
+</body>
+</html>

@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=IM+Fell+English:ital@0;1&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Grand Foundry Exposition — The Brass Foundry</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    :root {
+      --expo-gold:    #f0c040;
+      --expo-gold2:   #c09020;
+      --expo-dim:     #6a5010;
+      --emerald:      #40c080;
+      --emerald-dim:  #1a5030;
+      --cream:        #f5ead0;
+      --brass:        #d4a040;
+      --dark:         #0d1208;
+      --dark-mid:     #181e10;
+      --ink:          #d0c8a0;
+    }
+
+    body { background: #0d1208 !important; }
+
+    .sidebar {
+      background: linear-gradient(180deg, #181e10, #0d1208) !important;
+      border-right: 2px solid var(--expo-dim) !important;
+    }
+    .logo {
+      color: var(--expo-gold) !important;
+      text-shadow: 0 0 12px var(--expo-gold2), 0 0 30px rgba(192,144,32,0.4) !important;
+    }
+    .join-btn {
+      background: linear-gradient(to bottom, var(--expo-gold2), var(--expo-dim)) !important;
+      color: #0d1208 !important;
+      font-weight: bold;
+    }
+
+    /* Rising gear particles */
+    .gear-float {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      color: var(--expo-gold);
+      opacity: 0;
+      animation: gearRise linear infinite;
+      font-size: 1.2em;
+    }
+    @keyframes gearRise {
+      0%   { transform: translateY(100vh) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 0.15; }
+      90%  { opacity: 0.06; }
+      100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .expo-header {
+      text-align: center;
+      padding: 50px 20px 10px;
+      position: relative;
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    /* Grand banner ribbon */
+    .expo-ribbon {
+      background: linear-gradient(to right, var(--expo-dim), var(--expo-gold2), var(--expo-dim));
+      padding: 10px 0;
+      text-align: center;
+      margin-bottom: 0;
+    }
+    .expo-ribbon span {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.7em;
+      color: #0d1208;
+      letter-spacing: 6px;
+    }
+
+    .event-eyebrow {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.9em;
+      color: var(--emerald);
+      letter-spacing: 3px;
+      margin-bottom: 14px;
+    }
+
+    .expo-header h1 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: clamp(1.2em, 3.5vw, 2.4em);
+      color: var(--expo-gold);
+      text-shadow:
+        0 0 20px var(--expo-gold2),
+        0 0 60px rgba(192,144,32,0.3),
+        3px 3px 0 #2a1800;
+      letter-spacing: 4px;
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+
+    .event-dates {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--emerald);
+      font-size: 1em;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .event-subtitle {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--ink);
+      font-size: 1.05em;
+    }
+
+    .expo-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 28px auto 50px;
+      max-width: 700px;
+      color: var(--expo-dim);
+    }
+    .expo-divider::before,
+    .expo-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--expo-gold2), transparent);
+    }
+
+    /* ===== WRAP ===== */
+    .event-wrap {
+      padding: 0 44px 120px;
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    /* ===== SECTION CARD ===== */
+    .event-card {
+      background: linear-gradient(145deg, #181e10ee, #0d1208ee);
+      border: 1px solid var(--expo-dim);
+      border-left: 4px solid var(--expo-gold2);
+      border-radius: 8px;
+      padding: 32px 38px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .event-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://www.transparenttextures.com/patterns/old-map.png');
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    /* Corner flourish */
+    .event-card::after {
+      content: '⚙';
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      font-size: 1.6em;
+      opacity: 0.08;
+      color: var(--expo-gold);
+      animation: expoCog 25s linear infinite;
+    }
+    @keyframes expoCog {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .event-card h2 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1.15em;
+      color: var(--expo-gold);
+      letter-spacing: 2px;
+      margin-bottom: 18px;
+      text-shadow: 0 0 8px rgba(240,192,64,0.3);
+    }
+
+    .event-card p {
+      font-family: 'IM Fell English', serif;
+      color: var(--ink);
+      line-height: 1.9;
+      font-size: 1.02em;
+      margin-bottom: 12px;
+    }
+
+    .event-card p em { color: var(--emerald); font-style: italic; }
+    .event-card p strong { color: var(--expo-gold); }
+
+    /* Pull quote */
+    .expo-quote {
+      border-left: 3px solid var(--expo-gold2);
+      padding: 12px 20px;
+      margin: 18px 0;
+      background: rgba(192,144,32,0.06);
+      border-radius: 0 5px 5px 0;
+    }
+    .expo-quote p {
+      font-style: italic;
+      color: var(--expo-gold);
+      margin: 0;
+      font-size: 1.05em;
+    }
+    .expo-quote cite {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.82em;
+      color: var(--expo-dim);
+      letter-spacing: 1px;
+    }
+
+    .rules-placeholder {
+      border: 2px dashed var(--expo-dim);
+      border-radius: 6px;
+      padding: 30px;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .rules-placeholder p {
+      color: var(--expo-dim);
+      font-style: italic;
+      margin: 0;
+      font-family: 'IM Fell English', serif;
+    }
+
+    /* ===== SUBMISSION GRID ===== */
+    .submission-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .submission-slot {
+      background: linear-gradient(145deg, #202a18, #151d0e);
+      border: 1px solid var(--expo-dim);
+      border-radius: 6px;
+      padding: 18px 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    /* Gold top accent */
+    .submission-slot::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--expo-dim), var(--expo-gold2), var(--expo-dim));
+      border-radius: 6px 6px 0 0;
+    }
+
+    .submission-slot:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(192,144,32,0.2);
+    }
+
+    .slot-type {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.78em;
+      color: var(--emerald);
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    .slot-name {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.82em;
+      color: var(--cream);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .slot-name.empty {
+      color: var(--expo-dim);
+      font-style: italic;
+      font-family: 'IM Fell English', serif;
+      font-size: 0.9em;
+    }
+
+    .slot-link {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.82em;
+      color: var(--expo-gold);
+      text-decoration: none;
+      border-bottom: 1px solid var(--expo-dim);
+      transition: color 0.2s;
+    }
+    .slot-link:hover { color: var(--emerald); }
+    .slot-link.empty { color: var(--expo-dim); font-style: italic; border: none; cursor: default; }
+
+    .slot-desc {
+      font-family: 'IM Fell English', serif;
+      font-size: 0.82em;
+      color: #5a6a40;
+      font-style: italic;
+      margin-top: 4px;
+    }
+
+    .main::-webkit-scrollbar { width: 6px; }
+    .main::-webkit-scrollbar-track { background: #0d1208; }
+    .main::-webkit-scrollbar-thumb { background: var(--expo-dim); border-radius: 3px; }
+
+    /* ===== THUMBNAIL GRID ===== */
+    .thumb-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+    /* 1 image — fill full width */
+    .thumb-grid img:only-child {
+      grid-column: 1 / -1;
+      aspect-ratio: 16/9;
+    }
+    /* 2 images — 2 equal columns */
+    .thumb-grid:has(img:nth-child(2):last-child) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .thumb-grid img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid var(--expo-dim);
+      cursor: pointer;
+      display: block;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .thumb-grid img:hover {
+      border-color: var(--expo-gold2);
+      transform: scale(1.04);
+    }
+
+    /* ===== LIGHTBOX ===== */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-overlay.open { display: flex; }
+    .lightbox-overlay img {
+      max-width: 88vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 6px;
+      border: 1px solid var(--expo-dim);
+    }
+    .lightbox-close {
+      position: fixed;
+      top: 20px; right: 24px;
+      background: none; border: none;
+      color: var(--cream);
+      font-size: 2em;
+      cursor: pointer;
+      line-height: 1;
+      z-index: 10000;
+    }
+
+    /* ===== BOT IMAGE ===== */
+    .submission-slot img.bot-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .submission-slot img.bot-img:hover { transform: scale(1.02); }
+
+    @media (max-width: 768px) {
+      .event-wrap { padding: 0 14px 80px; }
+      .event-card { padding: 22px 18px; }
+      .submission-grid { grid-template-columns: 1fr; }
+      .expo-ribbon span { font-size: 0.55em; letter-spacing: 3px; }
+    }</style>
+</head>
+<body>
+
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<div id="loader">Igniting the Foundry...</div>
+<div class="smoke-overlay"></div>
+
+<!-- Rising gears -->
+<div class="gear-float" style="left:8%;  animation-duration:18s; animation-delay:0s;">⚙</div>
+<div class="gear-float" style="left:25%; animation-duration:24s; animation-delay:4s;">⚙</div>
+<div class="gear-float" style="left:50%; animation-duration:20s; animation-delay:2s;">⚙</div>
+<div class="gear-float" style="left:72%; animation-duration:22s; animation-delay:7s;">⚙</div>
+<div class="gear-float" style="left:88%; animation-duration:16s; animation-delay:9s;">⚙</div>
+
+<div class="container">
+  <nav class="sidebar">
+    <h1 class="logo">⚙ The Brass Foundry</h1>
+    <ul>
+      <li><button onclick="location.href='index.html'">Home</button></li>
+      <li><button onclick="location.href='events.html'">Events</button></li>
+      <li><button onclick="location.href='characters.html'">Characters</button></li>
+      <li><button onclick="location.href='guild.html'">Guild Hall</button></li>
+    </ul>
+    <a href="https://discord.gg/bu6UQzX59m" class="join-btn">Enter the Foundry</a>
+  </nav>
+
+  <div class="main">
+    <div id="content" style="display:none;">
+
+      <!-- GRAND RIBBON -->
+      <div class="expo-ribbon">
+        <span>⚙ &nbsp; THE BRASS FOUNDRY PRESENTS &nbsp; ⚙</span>
+      </div>
+
+      <div class="expo-header">
+        <div class="event-eyebrow">⚙ The Premier Event of the Foundry Calendar ⚙</div>
+        <h1>The Grand Foundry Exposition</h1>
+        <div class="event-dates">2/7/26 — 3/1/26</div>
+        <p class="event-subtitle">The gears are polished. The banners are hung. The Foundry opens its doors to the world.</p>
+        <div class="expo-divider">⚙ ✦ ⚙</div>
+      </div>
+
+      <div class="event-wrap">
+
+        <!-- ABOUT -->
+        <div class="event-card">
+          <h2>About the Event</h2>
+          <p>Once a year, the Brass Foundry does something it almost never does: it <em>shows off</em>. The Grand Foundry Exposition is the city's premier showcase of invention, creativity, and carefully orchestrated magnificent chaos. Guild banners hang from the Cogspire. Inventor's Row doubles its stalls. The Skyrail Docks are polished — yes, actually polished — for the occasion.</p>
+          <p>Members of the Foundry are invited to bring their <strong>finest work</strong>: their bots, their music, their art, their stories, their most ambitious inventions and their most unhinged experiments. The Exposition is not a competition. It is a <em>celebration</em> — of everything the Foundry has built, and everyone who helped build it.</p>
+          <div class="expo-quote">
+            <p>"The Exposition is not about being the best. It is about being the most fully, recklessly, magnificently yourself."</p>
+            <cite>— Overheard at the Cogspire steps, attributed to no one in particular</cite>
+          </div>
+        </div>
+
+        <!-- RULES -->
+        <div class="event-card">
+          <h2>Rules & Guidelines</h2>
+          <div class="rules-placeholder">
+            <p>No winners. No rankings.<br>
+Creations are exhibited, not judged.<br>
+Collaboration is encouraged and credited.<br>
+Works-in-progress are welcome.<br>
+Remixing allowed with attribution and permission.<br>
+The Exposition values process as much as outcome</p>
+          </div>
+        </div>
+
+        <!-- BOT SUBMISSIONS -->
+        <div class="event-card">
+          <h2>Bot Submissions</h2>
+          <p>The Exposition's Hall of Characters — every bot entered into the showcase, ready to be explored.</p>
+          <div class="submission-grid">
+             <div class="submission-slot">
+              <div class="slot-name empty">Semmy - Brass Therapist</div>
+              <a class="slot-link" href="https://crushon.ai/character/5ba75602-bf09-4640-aeec-84fd21e5d112/details?from=ChatRoomScreen" target="_blank">CrushOn AI</a>
+              <div class="slot-desc">by niosemmy</div>                
+            </div>
+        <div class="submission-slot">
+              <div class="slot-name empty">Martin Keller</div>
+              <a class="slot-link" href="https://linkin.love/chat/6390277791" target="_blank">linkin.love</a>
+              <div class="slot-desc">by seattlejo</div>                
+            </div>
+         <div class="submission-slot">
+              <div class="slot-name empty">Wind Up Eveline</div>
+              <a class="slot-link" href="https://linkin.love/chat/6390329411" target="_blank">linkin.love</a>
+              <div class="slot-desc">by bitofanerd</div>                
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- MUSIC SUBMISSIONS -->
+        <div class="event-card">
+          <h2>Music Submissions</h2>
+          <p>The Exposition's concert hall — original compositions, themes, and soundscapes from across the Foundry.</p>
+   <div class="submission-slot">
+              <div class="slot-name empty">by seattlejo</div>
+              <a class="slot-link" href="https://suno.com/playlist/c80b6b58-3e06-43fc-9c7c-0e8625cf2e62" target="_blank">Walking the Lower Workshops x Rooftop Races (Tamsin Delivers)</a>
+            </div>
+          </div>
+    
+
+
+
+
+
+        <!-- ART SUBMISSIONS -->
+        <div class="event-card">
+          <h2>🎨 Hall of Form — Art</h2>
+          <p>The Exposition Gallery — illustrations, portraits, scenes and visions from the Foundry's artists.</p>
+          <div class="submission-grid">
+
+            <!-- volara_of_velvet_gears — 1 image -->
+            <div class="submission-slot">
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmt9j.md.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by volara_of_velvet_gears</div>
+            </div>
+
+            <!-- niiori — 1 image -->
+            <div class="submission-slot">
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmt95.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by niiori</div>
+            </div>
+
+            <!-- kookeyjar — 1 image -->
+            <div class="submission-slot">
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmt9B.md.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by kookeyjar</div>
+            </div>
+
+            <!-- ferret.maximus — 3 images -->
+            <div class="submission-slot">
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmt9J.md.png" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtE2.md.png" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtEz.md.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by ferret.maximus</div>
+            </div>
+
+            <!-- bitofanerd — 6 images -->
+            <div class="submission-slot">
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmtEx.png" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtEE.jpg" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtEh.jpg" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtEv.jpg" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtEm.jpg" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtEk.jpg" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by bitofanerd</div>
+            </div>
+
+            <!-- seattlejo — 2 images -->
+            <div class="submission-slot">
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmtE4.md.png" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmtE8.md.png" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by seattlejo</div>
+            </div>
+
+            <!-- bitofanerd — 5 images -->
+            <div class="submission-slot">
+              <div class="thumb-grid">
+                <img src="https://s13.gifyu.com/images/bmthe.jpg" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmthJ.jpg" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmthX.jpg" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmthP.jpg" onclick="openLightbox(this)" alt="art">
+                <img src="https://s13.gifyu.com/images/bmthG.jpg" onclick="openLightbox(this)" alt="art">
+              </div>
+              <div class="slot-name empty">by bitofanerd</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+  function openLightbox(img) {
+    document.getElementById("lightbox-img").src = img.src;
+    document.getElementById("lightbox").classList.add("open");
+  }
+  function closeLightbox() {
+    document.getElementById("lightbox").classList.remove("open");
+    document.getElementById("lightbox-img").src = "";
+  }
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") closeLightbox();
+  });
+</script>
+</body>
+</html>

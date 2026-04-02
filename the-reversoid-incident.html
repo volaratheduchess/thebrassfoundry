@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚠ THE REVERSOID INCIDENT ⚠</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+
+    :root {
+      --corrupt:     #ff003c;
+      --corrupt-dim: #7a001c;
+      --crystal:     #cc00ff;
+      --crystal-glow:#8800aa;
+      --warning:     #ffcc00;
+      --dark:        #0a0005;
+      --ink:         #c9b89a;
+      --gold:        #d6b36a;
+      --gold-dim:    #8b6b2e;
+
+      --sprocket-rev: #ff003c;
+      --volara-rev:   #ffcc00;
+      --murk-rev:     #ff6600;
+    }
+
+    /* ===== OVERRIDE BODY for this page ===== */
+    body {
+      background: #0a0005 !important;
+    }
+
+    /* ===== SCANLINE OVERLAY ===== */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255,0,60,0.03) 2px,
+        rgba(255,0,60,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9998;
+      animation: scanShift 8s linear infinite;
+    }
+
+    @keyframes scanShift {
+      from { background-position: 0 0; }
+      to   { background-position: 0 100px; }
+    }
+
+    /* ===== SIDEBAR OVERRIDE ===== */
+    .sidebar {
+      background: linear-gradient(180deg, #1a0010, #0a0005) !important;
+      border-right: 2px solid var(--corrupt) !important;
+    }
+
+    .logo {
+      color: var(--corrupt) !important;
+      text-shadow: 0 0 10px var(--corrupt), 0 0 30px var(--corrupt-dim) !important;
+      animation: logoPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.7; text-shadow: 0 0 20px var(--corrupt), 0 0 60px var(--corrupt-dim); }
+    }
+
+    .join-btn {
+      background: linear-gradient(to bottom, #7a001c, #3a0010) !important;
+      color: #ff6688 !important;
+      border: 1px solid var(--corrupt) !important;
+    }
+
+    /* ===== GLITCH TEXT ===== */
+    .glitch {
+      position: relative;
+      display: inline-block;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .glitch::before {
+      color: var(--crystal);
+      animation: glitchTop 3s infinite;
+      clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+    }
+
+    .glitch::after {
+      color: var(--corrupt);
+      animation: glitchBot 3s infinite;
+      clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+    }
+
+    @keyframes glitchTop {
+      0%, 90%, 100% { transform: none; opacity: 1; }
+      92% { transform: translate(-3px, -2px); opacity: 0.8; }
+      94% { transform: translate(3px, 1px); opacity: 0.9; }
+      96% { transform: translate(-2px, 0); opacity: 0.7; }
+    }
+
+    @keyframes glitchBot {
+      0%, 88%, 100% { transform: none; opacity: 1; }
+      90% { transform: translate(3px, 2px); opacity: 0.8; }
+      93% { transform: translate(-3px, -1px); opacity: 0.9; }
+      95% { transform: translate(2px, 0); opacity: 0.7; }
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .rev-header {
+      text-align: center;
+      padding: 60px 20px 10px;
+      position: relative;
+    }
+
+    .warning-tape {
+      background: repeating-linear-gradient(
+        -45deg,
+        #ffcc00,
+        #ffcc00 14px,
+        #1a1000 14px,
+        #1a1000 28px
+      );
+      padding: 10px 0;
+      text-align: center;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85em;
+      color: #ffcc00;
+      letter-spacing: 3px;
+      margin-bottom: 40px;
+      animation: tapeFlicker 4s ease-in-out infinite;
+    }
+
+    @keyframes tapeFlicker {
+      0%, 95%, 100% { opacity: 1; }
+      97% { opacity: 0.4; }
+    }
+
+    .warning-tape span {
+      background: #0a0005;
+      padding: 0 20px;
+    }
+
+    .rev-header h1 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: clamp(1.4em, 4vw, 2.6em);
+      color: var(--corrupt);
+      text-shadow:
+        0 0 20px var(--corrupt),
+        0 0 60px var(--corrupt-dim),
+        3px 3px 0 var(--crystal-glow);
+      letter-spacing: 4px;
+      margin-bottom: 14px;
+    }
+
+    .rev-dates {
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--warning);
+      font-size: 0.9em;
+      letter-spacing: 3px;
+      margin-bottom: 6px;
+    }
+
+    .rev-subtitle {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: #aa88cc;
+      font-size: 1.05em;
+      letter-spacing: 1px;
+    }
+
+    .gear-divider-corrupt {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin: 28px auto 50px;
+      color: var(--corrupt-dim);
+      font-size: 1.3em;
+      max-width: 600px;
+    }
+
+    .gear-divider-corrupt::before,
+    .gear-divider-corrupt::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--corrupt), transparent);
+    }
+
+    /* ===== MAIN WRAP ===== */
+    .rev-wrap {
+      padding: 0 44px 120px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* ===== INCIDENT REPORT BOX ===== */
+    .incident-report {
+      background: #0f000a;
+      border: 1px solid var(--corrupt);
+      border-left: 4px solid var(--corrupt);
+      border-radius: 6px;
+      padding: 30px 36px;
+      margin-bottom: 40px;
+      position: relative;
+      font-family: 'Share Tech Mono', monospace;
+      overflow: hidden;
+    }
+
+    .incident-report::before {
+      content: 'INCIDENT REPORT // CLASSIFICATION: REVERSOID';
+      position: absolute;
+      top: 10px; right: 14px;
+      font-size: 0.65em;
+      color: var(--corrupt-dim);
+      letter-spacing: 2px;
+    }
+
+    .incident-report .report-label {
+      font-size: 0.7em;
+      color: var(--corrupt);
+      letter-spacing: 3px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    .incident-report p {
+      font-family: 'IM Fell English', serif;
+      color: var(--ink);
+      line-height: 1.9;
+      font-size: 1.02em;
+      margin-bottom: 12px;
+    }
+
+    .incident-report p em { color: var(--crystal); font-style: italic; }
+    .incident-report p strong { color: var(--warning); }
+
+    .static-line {
+      height: 2px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--corrupt) 0px,
+        var(--corrupt) 3px,
+        transparent 3px,
+        transparent 8px
+      );
+      margin: 20px 0;
+      opacity: 0.4;
+      animation: staticShift 1s linear infinite;
+    }
+
+    @keyframes staticShift {
+      from { background-position: 0 0; }
+      to   { background-position: 40px 0; }
+    }
+
+    /* ===== HOW TO PARTICIPATE ===== */
+    .how-to {
+      background: linear-gradient(145deg, #1a000f, #0a0005);
+      border: 1px solid #5a003a;
+      border-top: 3px solid var(--crystal);
+      border-radius: 6px;
+      padding: 30px 36px;
+      margin-bottom: 40px;
+    }
+
+    .how-to h2 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1.1em;
+      color: var(--crystal);
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px var(--crystal-glow);
+    }
+
+    .how-to ol {
+      margin-left: 20px;
+      font-family: 'IM Fell English', serif;
+      color: var(--ink);
+      line-height: 1.9;
+      font-size: 1.02em;
+    }
+
+    .how-to ol li { margin-bottom: 10px; }
+    .how-to ol li::marker { color: var(--corrupt); }
+    .how-to ol li em { color: var(--crystal); font-style: italic; }
+    .how-to ol li strong { color: var(--warning); }
+
+    /* ===== CHARACTER CARDS ===== */
+    .villain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-bottom: 44px;
+    }
+
+    .villain-card {
+      background: linear-gradient(160deg, #1a000a, #0a0005);
+      border: 1px solid #5a0020;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: cardReveal 0.6s ease both;
+    }
+
+    .villain-card:nth-child(2) { animation-delay: 0.1s; }
+    .villain-card:nth-child(3) { animation-delay: 0.2s; }
+
+    @keyframes cardReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .villain-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(255,0,60,0.25);
+    }
+
+    /* top accent bar per character */
+    .villain-card.sprocket-v { border-top: 3px solid var(--sprocket-rev); }
+    .villain-card.volara-v   { border-top: 3px solid var(--volara-rev); }
+    .villain-card.murk-v     { border-top: 3px solid var(--murk-rev); }
+
+    .villain-portrait {
+      width: 100%;
+      aspect-ratio: 1;
+      max-height: 220px;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      filter: grayscale(40%) contrast(1.2) hue-rotate(10deg);
+      transition: filter 0.4s ease;
+    }
+
+    .villain-card:hover .villain-portrait {
+      filter: grayscale(0%) contrast(1.3) saturate(1.2);
+    }
+
+    /* glitch effect on portrait hover */
+    .villain-card:hover .villain-portrait {
+      animation: imgGlitch 0.3s steps(2) 1;
+    }
+
+    @keyframes imgGlitch {
+      0%   { clip-path: inset(0 0 80% 0); transform: translate(-4px); }
+      25%  { clip-path: inset(40% 0 30% 0); transform: translate(4px); }
+      50%  { clip-path: inset(70% 0 0% 0); transform: translate(-2px); }
+      100% { clip-path: none; transform: none; }
+    }
+
+    .villain-body {
+      padding: 22px 20px 26px;
+      position: relative;
+    }
+
+    .villain-name {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1.05em;
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+
+    .villain-card.sprocket-v .villain-name { color: var(--sprocket-rev); text-shadow: 0 0 10px rgba(255,0,60,0.5); }
+    .villain-card.volara-v   .villain-name { color: var(--volara-rev);   text-shadow: 0 0 10px rgba(255,204,0,0.5); }
+    .villain-card.murk-v     .villain-name { color: var(--murk-rev);     text-shadow: 0 0 10px rgba(255,102,0,0.5); }
+
+    .villain-title {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 0.85em;
+      color: #6a3a5a;
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+    }
+
+    .villain-blurb {
+      font-family: 'IM Fell English', serif;
+      color: var(--ink);
+      font-size: 0.97em;
+      line-height: 1.85;
+      margin-bottom: 10px;
+    }
+
+    .villain-card.sprocket-v .villain-blurb em { color: var(--sprocket-rev); font-style: italic; }
+    .villain-card.volara-v   .villain-blurb em { color: var(--volara-rev);   font-style: italic; }
+    .villain-card.murk-v     .villain-blurb em { color: var(--murk-rev);     font-style: italic; }
+
+    .villain-warning {
+      margin-top: 14px;
+      padding: 10px 14px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75em;
+      letter-spacing: 1px;
+      border-radius: 3px;
+    }
+
+    .villain-card.sprocket-v .villain-warning { background: rgba(255,0,60,0.08);   color: var(--sprocket-rev); border: 1px solid rgba(255,0,60,0.3); }
+    .villain-card.volara-v   .villain-warning { background: rgba(255,204,0,0.08);  color: var(--volara-rev);   border: 1px solid rgba(255,204,0,0.3); }
+    .villain-card.murk-v     .villain-warning { background: rgba(255,102,0,0.08);  color: var(--murk-rev);     border: 1px solid rgba(255,102,0,0.3); }
+
+    /* ===== CRYSTAL LORE BOX ===== */
+    .crystal-lore {
+      background: linear-gradient(145deg, #12001a, #0a0005);
+      border: 1px solid #6a00aa;
+      border-left: 4px solid var(--crystal);
+      border-radius: 6px;
+      padding: 30px 36px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .crystal-lore::before {
+      content: '💎';
+      position: absolute;
+      font-size: 8em;
+      opacity: 0.04;
+      right: -10px;
+      bottom: -20px;
+      animation: crystalPulse 4s ease-in-out infinite;
+    }
+
+    @keyframes crystalPulse {
+      0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.04; }
+      50%       { transform: scale(1.05) rotate(5deg); opacity: 0.07; }
+    }
+
+    .crystal-lore h2 {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1.15em;
+      color: var(--crystal);
+      letter-spacing: 2px;
+      margin-bottom: 18px;
+      text-shadow: 0 0 12px var(--crystal-glow);
+    }
+
+    .crystal-lore p {
+      font-family: 'IM Fell English', serif;
+      color: var(--ink);
+      line-height: 1.9;
+      font-size: 1.02em;
+      margin-bottom: 12px;
+    }
+
+    .crystal-lore p em { color: var(--crystal); font-style: italic; }
+    .crystal-lore p strong { color: var(--warning); }
+
+    /* ===== PULL QUOTE ===== */
+    .corrupt-quote {
+      border-left: 3px solid var(--corrupt);
+      padding: 14px 22px;
+      margin: 22px 0;
+      background: rgba(255,0,60,0.05);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .corrupt-quote p {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      font-size: 1.08em;
+      color: #ff8899;
+      margin: 0;
+      line-height: 1.75;
+    }
+
+    .corrupt-quote cite {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.82em;
+      color: var(--corrupt-dim);
+      letter-spacing: 1px;
+    }
+
+    /* ===== CTA BUTTON ===== */
+    .rev-cta {
+      text-align: center;
+      margin: 50px 0 20px;
+    }
+
+    .rev-cta a {
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 1em;
+      letter-spacing: 3px;
+      background: linear-gradient(to bottom, #7a001c, #3a0010);
+      color: var(--corrupt);
+      border: 2px solid var(--corrupt);
+      padding: 14px 36px;
+      border-radius: 5px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 10px var(--corrupt);
+      box-shadow: 0 0 20px rgba(255,0,60,0.2);
+    }
+
+    .rev-cta a:hover {
+      background: linear-gradient(to bottom, #aa0028, #7a001c);
+      box-shadow: 0 0 40px rgba(255,0,60,0.5);
+      transform: translateY(-2px);
+    }
+
+    .rev-cta .cta-sub {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--corrupt-dim);
+      font-size: 0.88em;
+      margin-top: 12px;
+      letter-spacing: 1px;
+    }
+
+    /* ===== EMBER PARTICLES (corrupt color) ===== */
+    .corrupt-particle {
+      position: fixed;
+      bottom: -10px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(1); opacity: 0.8; }
+      50%  { transform: translateY(-40vh) translateX(15px) scale(0.6); opacity: 0.3; }
+      100% { transform: translateY(-90vh) translateX(-8px) scale(0.1); opacity: 0; }
+    }
+
+    .main::-webkit-scrollbar { width: 6px; }
+    .main::-webkit-scrollbar-track { background: #0a0005; }
+    .main::-webkit-scrollbar-thumb { background: var(--corrupt-dim); border-radius: 3px; }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 768px) {
+      .rev-wrap { padding: 0 14px 80px; }
+      .incident-report, .how-to, .crystal-lore { padding: 22px 18px; }
+      .villain-grid { grid-template-columns: 1fr; }
+    }
+
+
+
+    .thumb-grid {
+  grid-template-columns: repeat(2, 140px);
+}
+.thumb {
+  aspect-ratio: 1;
+}
+
+    /* ===== BOT IMAGE ===== */
+    .submission-slot img.bot-img {
+      width: 100%; aspect-ratio: 1; object-fit: cover;
+      border-radius: 6px; margin-bottom: 10px; display: block;
+      cursor: pointer; transition: transform 0.2s;
+    }
+    .submission-slot img.bot-img:hover { transform: scale(1.02); }
+
+    /* ===== THUMBNAIL GRID ===== */
+    .thumb-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px; margin-bottom: 8px;
+    }
+    .thumb-grid img {
+      width: 100%; aspect-ratio: 1; object-fit: cover;
+      border-radius: 4px; cursor: pointer; display: block;
+      transition: transform 0.2s;
+    }
+    .thumb-grid img:hover { transform: scale(1.04); }
+
+    /* ===== LIGHTBOX ===== */
+    .lightbox-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.88); z-index: 9999;
+      align-items: center; justify-content: center;
+    }
+    .lightbox-overlay.open { display: flex; }
+    .lightbox-overlay img {
+      max-width: 88vw; max-height: 88vh;
+      object-fit: contain; border-radius: 6px;
+    }
+    .lightbox-close {
+      position: fixed; top: 20px; right: 24px;
+      background: none; border: none; color: #f5e6d0;
+      font-size: 2em; cursor: pointer; line-height: 1; z-index: 10000;
+    }
+  </style>
+</head>
+<body>
+
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<div id="loader">Igniting the Foundry...</div>
+<div class="smoke-overlay"></div>
+
+<!-- Corrupted particles -->
+<div class="corrupt-particle" style="left:8%;  animation-duration:9s;  animation-delay:0s;  background:#ff003c;"></div>
+<div class="corrupt-particle" style="left:22%; animation-duration:13s; animation-delay:3s;  background:#cc00ff;"></div>
+<div class="corrupt-particle" style="left:55%; animation-duration:10s; animation-delay:1s;  background:#ff003c;"></div>
+<div class="corrupt-particle" style="left:78%; animation-duration:12s; animation-delay:6s;  background:#ffcc00;"></div>
+<div class="corrupt-particle" style="left:42%; animation-duration:15s; animation-delay:8s;  background:#cc00ff;"></div>
+
+<div class="container">
+
+  <nav class="sidebar">
+    <h1 class="logo">⚙ The Brass Foundry</h1>
+    <ul>
+      <li><button onclick="location.href='index.html'">Home</button></li>
+      <li><button onclick="location.href='events.html'">Events</button></li>
+      <li><button onclick="location.href='characters.html'">Characters</button></li>
+      <li><button onclick="location.href='guild.html'">Guild Hall</button></li>
+    </ul>
+    <a href="https://discord.gg/bu6UQzX59m" class="join-btn">Enter the Foundry</a>
+  </nav>
+
+  <div class="main">
+    <div id="content" style="display:none;">
+
+      <!-- WARNING TAPE -->
+      <div class="warning-tape">
+        <span>⚠ &nbsp; CONTAINMENT STATUS: UNRESOLVED &nbsp; ⚠</span>
+      </div>
+
+      <!-- HEADER -->
+      <div class="rev-header">
+        <h1 class="glitch" data-text="THE REVERSOID INCIDENT">THE REVERSOID INCIDENT</h1>
+        <div class="rev-dates">EVENT ACTIVE: 4/1/26 - 4/7/26 — 168 HOURS</div>
+        <p class="rev-subtitle">Something went wrong in the lab. Something went very, very wrong.</p>
+        <div class="gear-divider-corrupt">⚙ ✦ ⚙</div>
+      </div>
+
+      <div class="rev-wrap">
+
+        <!-- INCIDENT REPORT -->
+        <div class="incident-report">
+          <div class="report-label">⚠ Otterworks Internal Memo — Do Not Distribute</div>
+          <p>At <strong>approximately 0300 hours</strong>, a member of the Otter Squad — who has requested to remain unnamed and will absolutely not be remaining unnamed for long — loaded an unverified crystal into the Otterworks Communal Invention Device, Model 7.</p>
+          <p>The crystal was labeled. Unfortunately, it was labeled in a handwriting that, under low workshop lighting, made a <em>Reversoid Crystal</em> look sufficiently like a <em>Happiness Crystal</em> that no further questions were asked.</p>
+          <p>The device activated at full output. The fog turned <em>the color of bad decisions</em>. A sound was heard throughout the Foundry that engineers are describing as "a gear running backwards through time." Every soul within the city walls was affected.</p>
+          <div class="static-line"></div>
+          <p>The effects are <strong>temporary</strong>. Probably. The Reversoid Crystal's effects have a known duration of <em>168 hours</em>, after which the fog clears and everyone returns to normal. Until then — the Foundry belongs to its worst selves.</p>
+          <p>The Otterworks apologizes. Sincerely. From a secure location.</p>
+        </div>
+
+        <!-- CRYSTAL LORE -->
+        <div class="crystal-lore">
+          <h2>💎 The Reversoid Crystal</h2>
+          <p>First discovered in the lower reaches of the Geargrave — which should have been the first warning — the <em>Reversoid Crystal</em> is a violet-black gemstone that hums at a frequency no instrument has successfully measured. Its surface appears to shift when you're not looking directly at it.</p>
+          <p>When introduced to a powered mechanism, it does not amplify or enhance. It <em>inverts</em>. Whatever the machine was built to do, the crystal makes it do the opposite. A heater becomes a freezer. A lock becomes a key. A Happiness Device becomes something considerably less happy.</p>
+          <p>Applied to living beings via ambient crystal discharge — as has now, regrettably, occurred — it flips the self. Not the body. Not the memories. Just the <em>orientation</em>. The instincts. The impulses. The part of a person that decides, moment to moment, who they are.</p>
+
+          <div class="corrupt-quote">
+            <p>"The crystal doesn't lie. It doesn't corrupt. It simply shows you what you would have been, if everything had gone differently from the start."</p>
+            <cite>— Recovered from a Geargrave scavenger's journal, author unknown</cite>
+          </div>
+
+          <p>The <strong>known antidote</strong> is time. Forty-eight hours. After which the inversion collapses on its own, like a gear that's been forced to run backwards finally stripping its teeth and stopping. Until then, residents of the Foundry are advised to be patient, flexible, and to hide anything they particularly value.</p>
+        </div>
+
+        <!-- HOW TO PARTICIPATE -->
+        <div class="how-to">
+          <h2>// HOW TO PARTICIPATE</h2>
+          <ol>
+            <li>For the duration of the event, play your character as their <em>reversed self</em> — not evil for evil's sake, but genuinely flipped. The opposite of who they are.</li>
+            <li>Ask yourself: <em>what does my character most fundamentally value?</em> Now remove it. What's left?</li>
+            <li>The reversal isn't a mask. Your character doesn't <em>know</em> they've changed. To them, this is simply <strong>who they are</strong>.</li>
+            <li>Other characters may notice something is wrong. Confronting a reversed character is encouraged. Chaos is the point.</li>
+            <li>After <strong>168 hours</strong>, the crystal's effect ends. Characters snap back. The fog clears. Nobody talks about what happened. <em>Everybody</em> talks about what happened.</li>
+          </ol>
+        </div>
+
+        <!-- VILLAIN CARDS -->
+        <div class="villain-grid">
+
+          <!-- SPROCKET -->
+          <div class="villain-card sprocket-v">
+            <img src="https://s13.gifyu.com/images/bmfYf.png" alt="Sprocket" class="villain-portrait">
+            <div class="villain-body">
+              <div class="villain-name">Sprocket</div>
+              <div class="villain-title">Mayor of the Brass Foundry — Reversed</div>
+              <p class="villain-blurb">Sprocket was always a mystery — benevolent, present, impossible to pin down. Reversed, the mystery remains. But the benevolence does not.</p>
+              <p class="villain-blurb">The memos are still elegant. The content is <em>glacial</em>. The Skyrail Docks have been re-tolled effective immediately. Lower district access is under review. The mayoral office has issued a seven-page document on the importance of <em>order</em>, efficiency, and the elimination of unauthorized creative expression in public spaces.</p>
+              <p class="villain-blurb">The clockwork feathers still catch the light. The talons still leave gear-shaped marks. But the eyes — the eyes are different now. <em>Counting</em> something.</p>
+              <div class="villain-warning">⚠ STATUS: DO NOT APPROACH WITHOUT APPOINTMENT</div>
+            </div>
+          </div>
+
+          <!-- VOLARA -->
+          <div class="villain-card volara-v">
+            <img src="https://s13.gifyu.com/images/bmfYc.md.png" alt="Volara" class="villain-portrait">
+            <div class="villain-body">
+              <div class="villain-name">Volara</div>
+              <div class="villain-title">Duchess of Brass — Reversed</div>
+              <p class="villain-blurb">Volara — feral, chaos-sovereign, patron saint of beautiful ruin — has become something nobody in the Foundry was prepared for.</p>
+              <p class="villain-blurb"><em>Proper.</em></p>
+              <p class="villain-blurb">She arrived to breakfast at the correct time. She used the correct fork. She has opinions about posture, punctuality, and the appropriate volume for indoor voices, and she is sharing them. At length. With everyone. The Airship has been <em>tidied</em>. There is a schedule. There are rules. She is enforcing them with the same intensity she once brought to breaking them, and that intensity has not diminished one degree.</p>
+              <p class="villain-blurb">This is, by wide consensus, the most terrifying thing that has ever happened in the Brass Foundry.</p>
+              <div class="villain-warning">⚠ STATUS: DISTURBINGLY PUNCTUAL. AVOID EYE CONTACT.</div>
+            </div>
+          </div>
+
+          <!-- MURK -->
+          <div class="villain-card murk-v">
+            <img src="https://s13.gifyu.com/images/bmfYM.png" alt="Murk" class="villain-portrait">
+            <div class="villain-body">
+              <div class="villain-name">Murk</div>
+              <div class="villain-title">Crocodile of the Rusted Swamp — Reversed</div>
+              <p class="villain-blurb">Murk was grumpy. Murk was calibrated. Murk was the comforting, predictable weight of a bad mood with warmth underneath it. You always knew where you stood with Murk.</p>
+              <p class="villain-blurb">Reversed Murk is <em>aggressively cheerful</em>. He is at the door before you knock. He has already made the coffee. He is delighted to see you. He is <em>so glad you came</em>.</p>
+              <p class="villain-blurb">The top hat is straight. The smile is enormous. Neither of these things should be possible and yet here we are. Swamp residents who have known Murk for years are unanimously reporting that the smile <em>does not reach his eyes</em>, and that this is somehow worse than anything the real Murk has ever done.</p>
+              <div class="villain-warning">⚠ STATUS: SUSPICIOUSLY PLEASANT. DO NOT ACCEPT THE COFFEE.</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- CTA -->
+        <div class="rev-cta">
+          <a href="https://discord.gg/bu6UQzX59m">⚠ Enter the Foundry ⚠</a>
+          <p class="cta-sub">The crystal is active. The fog is wrong. The 168 hours have begun.</p>
+        </div>
+
+      </div><!-- /rev-wrap -->
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /container -->
+
+<script src="script.js"></script>
+<script>
+  function openLightbox(img) {
+    document.getElementById("lightbox-img").src = img.src;
+    document.getElementById("lightbox").classList.add("open");
+  }
+  function closeLightbox() {
+    document.getElementById("lightbox").classList.remove("open");
+    document.getElementById("lightbox-img").src = "";
+  }
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") closeLightbox();
+  });
+</script>
+</body>
+</html>
