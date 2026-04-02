@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music — Cookie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&family=Nunito:ital,wght@0,300;0,400;0,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="cookie-music.css">
+</head>
+<body class="cookie">
+
+<a class="back-btn" href="javascript:history.back()">← Back</a>
+
+
+
+
+
+
+<audio id="main-audio" preload="none"></audio>
+<div class="page-header">
+  <div class="page-eyebrow">Tunes for the Fierce & the Sweet</div>
+  <h1>Music</h1>
+  <p class="subtitle">Competitive playlists. Chaotic taste. Immaculate execution.</p>
+  <div class="s-divider"><span>🍪 ✦ 🍪</span></div>
+</div>
+
+<div class="page-wrap">
+
+  <div class="s-card" style="margin-bottom:28px;">
+    <h2>Cookie's Playlist</h2>
+    <p>Music picked with the same energy Cookie brings to everything — fully committed, slightly unhinged, and absolutely correct.</p>
+    <p>The playlist bar at the bottom plays audio and persists across pages. Press <em>♪ Playlist</em> to browse, skip, or control volume.</p>
+  </div>
+
+  <div class="track-grid">
+    <div class="track-card" id="card-0" onclick="playTrack(0)">
+      <div class="track-name">Dominion.exe</div>
+      <div class="track-sub">by KookeyJar</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/CfuvOB8lFTTygtrT" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-1" onclick="playTrack(1)">
+      <div class="track-name">Good Boy</div>
+      <div class="track-sub">by KookeyJar</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/ppuJOJPB4lwdMHe7" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-2" onclick="playTrack(2)">
+      <div class="track-name">Head Empty</div>
+      <div class="track-sub">by KookeyJar</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/f3p8fnPa0Dp9Vita" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-3" onclick="playTrack(3)">
+      <div class="track-name">Hibernate With Me</div>
+      <div class="track-sub">by KookeyJar</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/BFTznCB6id3SpZS3" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-4" onclick="playTrack(4)">
+      <div class="track-name">Holding Out For a Villain</div>
+      <div class="track-sub">by KookeyJar</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/53fFevbndOS1JKWo" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-5" onclick="playTrack(5)">
+      <div class="track-name">No Volume Control</div>
+      <div class="track-sub">by KookeyJar</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/ZJKnjTWkFVPuhILe" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" id="card-6" onclick="playTrack(6)">
+      <div class="track-name">Plastic Halo</div>
+      <div class="track-sub">by KookeyJar</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/NDZV5gHu0WffjbGy" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+        <div class="track-card" id="card-7" onclick="playTrack(7)">
+      <div class="track-name">The Jar That Matters</div>
+      <div class="track-sub">by KookeyJar</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/SKu1kL2mNZGQEp0i" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+        <div class="track-card" id="card-8" onclick="playTrack(8)">
+      <div class="track-name">Until You See It Too</div>
+      <div class="track-sub">by KookeyJar</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/e2AS4X82AxrWG8u6" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+        <div class="track-card" id="card-9" onclick="playTrack(9)">
+      <div class="track-name">Weight of the Waking</div>
+      <div class="track-sub">by KookeyJar</div>
+      <button class="track-play-btn">▶ Play</button>
+      <a href="https://suno.com/s/lveYkTsABr7r0zdM" target="_blank" class="track-link" onclick="event.stopPropagation()">Listen on Suno →</a>
+    </div>
+    <div class="track-card" style="opacity:0.45;border-style:dashed;cursor:default;" onclick="event.stopPropagation()">
+      <div class="track-name" style="color:#990001;">More Incoming</div>
+      <div class="track-desc">Still cooking. More tracks incoming.</div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- MUSIC BAR -->
+<div class="music-bar" id="music-bar">
+  <button class="music-bar-btn" id="bar-playpause" onclick="barToggle()">▶</button>
+  <button class="music-bar-btn" onclick="barPrev()">‹</button>
+  <button class="music-bar-btn" onclick="barNext()">›</button>
+  <div class="music-progress-wrap" onclick="barSeek(event)">
+    <div class="music-progress-bar" id="bar-progress"></div>
+  </div>
+  <span class="music-now" id="bar-now">🍪 Select a track to begin</span>
+  <div class="music-vol-wrap">
+    <span class="music-vol-label">vol</span>
+    <input type="range" id="bar-vol" min="0" max="1" step="0.05" value="0.4">
+  </div>
+  <button class="music-bar-btn" onclick="openPlaylist()">♪ Playlist</button>
+</div>
+
+<!-- PLAYLIST MODAL -->
+<div class="playlist-overlay" id="playlist-overlay" onclick="closePlaylistOutside(event)">
+  <div class="playlist-modal">
+    <div class="playlist-header">
+      <span class="playlist-title">🍪 Cookie's Playlist</span>
+      <button class="playlist-close" onclick="closePlaylist()">✕</button>
+    </div>
+    <div class="playlist-controls">
+      <button class="pl-btn" onclick="barPrev()">‹ Prev</button>
+      <button class="pl-btn pl-playpause" id="pl-playpause" onclick="barToggle()">▶</button>
+      <button class="pl-btn" onclick="barNext()">Next ›</button>
+      <div class="pl-progress-wrap" onclick="barSeek(event)">
+        <div class="pl-progress-bar" id="pl-progress"></div>
+      </div>
+      <span class="pl-time" id="pl-time">0:00</span>
+    </div>
+    <div class="playlist-tracks" id="playlist-tracks"></div>
+    <div class="pl-now-playing" id="pl-now">Select a track to begin</div>
+  </div>
+</div>
+<script>
+window.MUSIC_CONFIG = {
+  tracks: [{"name":"Dominion.exe","sub":"by KookeyJar","src":"Dominion.exe.mp3","suno":"https://suno.com/s/CfuvOB8lFTTygtrT"},
+{"name":"Good Boy","sub":"by KookeyJar","src":"good-boy.mp3","suno":"https://suno.com/s/ppuJOJPB4lwdMHe7"},
+{"name":"Head Empty","sub":"by KookeyJar","src":"head-empty.mp3","suno":"https://suno.com/s/f3p8fnPa0Dp9Vita"}, 
+{"name":"Hibernate With Me","sub":"by KookeyJar","src":"hibernate-with-me.mp3","suno":"https://suno.com/s/BFTznCB6id3SpZS3"},
+{"name":"Holding Out For a Villain","sub":"by KookeyJar","src":"holding-out-for-a-villain.mp3","suno":"https://suno.com/s/53fFevbndOS1JKWo"},
+{"name":"No Volume Control","sub":"by KookeyJar","src":"no-volume-control.mp3","suno":"https://suno.com/s/ZJKnjTWkFVPuhILe"},
+{"name":"Plastic Halo","sub":"by KookeyJar","src":"plastic-halo.mp3","suno":"https://suno.com/s/NDZV5gHu0WffjbGy"},
+{"name":"The Jar That Matters","sub":"by KookeyJar","src":"the-jar-that-matters.mp3","suno":"https://suno.com/s/SKu1kL2mNZGQEp0i"},
+{"name":"Until You See It Too","sub":"by KookeyJar","src":"until-you-see-it-too.mp3","suno":"https://suno.com/s/e2AS4X82AxrWG8u6"},
+{"name":"Weight of the Waking","sub":"by KookeyJar","src":"weight-of-the-waking.mp3","suno":"https://suno.com/s/lveYkTsABr7r0zdM"},
+  ],
+  sessionKey: 'cookie',
+  barIcon: '🍪'
+};
+</script>
+<script src="music-player.js"></script>
+
+
+</body>
+</html>
